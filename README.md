@@ -1,5 +1,8 @@
-# Installation
-## Windows:
+# NRgine
+NRgine is my 3d engine for training C++ skills. Also it provides access for any recruitment managers to check my source code quality.
+
+## Installation
+### Windows:
 If you are using msys2, install next packages:
 ```
 pacman -S \
@@ -14,4 +17,4 @@ mingw-w64-x86_64-glm \
 mingw-w64-x86_64-gegl \
 mingw-w64-x86_64-toolchain
 ```
-Ensure that environment path "C:\msys64\mingw64\bin\" before "C:\msys64\usr\bin\" due searching libraries and incudes for architecture properly.
+Ensure that environment path "C:\msys64\mingw64\bin\" before "C:\msys64\usr\bin\".
