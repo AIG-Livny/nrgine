@@ -1,0 +1,17 @@
+# Installation
+## Windows:
+If you are using msys2, install next packages:
+```
+pacman -S \
+mingw-w64-x86_64-glew \
+mingw-w64-x86_64-glfw \
+mingw-w64-x86_64-freeglut \
+mingw-w64-x86_64-assimp \
+mingw-w64-x86_64-gtest \
+mingw-w64-x86_64-stb \
+mingw-w64-x86_64-glade \
+mingw-w64-x86_64-glm \
+mingw-w64-x86_64-gegl \
+mingw-w64-x86_64-toolchain
+```
+Ensure that environment path "C:\msys64\mingw64\bin\" before "C:\msys64\usr\bin\" due searching libraries and incudes for architecture properly.

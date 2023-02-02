@@ -1,0 +1,54 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "type": "shell",
+            "group":{"kind": "build","isDefault": true},
+            "command": "make",
+            "presentation": {
+                "clear": true
+            }
+        },
+        {
+            "label": "run",
+            "type": "shell",
+            "command": "make run",
+            "presentation": {
+                "clear": true
+            }
+        },
+        {
+            "label": "clean",
+            "type": "shell",
+            "command": "make clean",
+            "presentation": {
+                "clear": true
+            }
+        },
+        {
+            "label": "cleanall",
+            "type": "shell",
+            "command": "make cleanall",
+            "presentation": {
+                "clear": true
+            }
+        },
+        {
+            "label": "cleanall.withsubprojects",
+            "type": "shell",
+            "command": "make cleanall.withsubprojects",
+            "presentation": {
+                "clear": true
+            }
+        },
+        {
+            "label": "runtest",
+            "type": "shell",
+            "command": "make runtest",
+            "presentation": {
+                "clear": true
+            }
+        }
+    ]
+}
