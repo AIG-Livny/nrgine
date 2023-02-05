@@ -39,7 +39,7 @@ namespace resources{
             throw std::runtime_error("SHADER::Not found vertex shader");
         }
 
-        auto open_shader = [](const path& p, pu<string>& strout)->void{
+        auto open_shader = [](const path& p, std::unique_ptr<string>& strout)->void{
             if(p.empty()){
                 return;
             }

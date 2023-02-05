@@ -3,191 +3,195 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/quaternion.hpp>
+
 #include "common/interfaces/IMovable.h"
 
 namespace common{
-    template <typename T>
-    class TransformMatrix :IMovable<T>{
-        private:
-            matr<T> matrix_;
-            
-        public:
-            
-            [[nodiscard]] vect<T>    getBackward ();
-            [[nodiscard]] vect<T>    getForward  ();
-            [[nodiscard]] vect<T>    getLeft     ();
-            [[nodiscard]] vect<T>    getRight    ();
-            [[nodiscard]] vect<T>    getDown     ();
-            [[nodiscard]] vect<T>    getUp       ();
-            [[nodiscard]] vect<T>    getPosition ();
-            [[nodiscard]] vect<T>    getScale    ();
-            [[nodiscard]] matr<T>&   getMatrix   ();
+    
+template <typename T>
+class TransformMatrix :IMovable<T>{
+    private:
+        matr<T> matrix_;
+        vect<T> scale_;
+        quater<T> rotation_;
+        vect<T> position_;
+        
+        inline void matrixUpdate();
+        
+    public:
+        TransformMatrix()
+        :
+        matrix_(glm::identity<matr<T>>())
+        {}
+        
+        [[nodiscard]]       inline vect<T>    getBackward ();
+        [[nodiscard]]       inline vect<T>    getForward  ();
+        [[nodiscard]]       inline vect<T>    getLeft     ();
+        [[nodiscard]]       inline vect<T>    getRight    ();
+        [[nodiscard]]       inline vect<T>    getDown     ();
+        [[nodiscard]]       inline vect<T>    getUp       ();
+        
+        [[nodiscard]]       inline vect<T>    getPitch    ();
+        [[nodiscard]]       inline vect<T>    getYaw      ();
+        [[nodiscard]]       inline vect<T>    getRoll     ();
+        [[nodiscard]] const inline vect<T>&   getScale    ();
+        [[nodiscard]] const inline quater<T>& getRotation ();
+        [[nodiscard]] const inline vect<T>&   getPosition ();
+        [[nodiscard]]       inline matr<T>&   getMatrix   ();
 
-            void setPosition        (const vect<T>& pos);
-            void setPosition        (T x, T y, T z);
-            void setScale           (const vect<T>& scale);
-            void setScale           (T x, T y, T z);
-            void setRotation        (const quater<T>& qrot);
-            void setRotation        (T rx, T ry, T rz);
+        inline void setPosition (const vect<T>& pos);
+        inline void setPosition (T x, T y, T z);
+        inline void setScale    (const vect<T>& scale);
+        inline void setScale    (T x, T y, T z);
+        inline void setRotation (const quater<T>& qrot);
+        inline void setRotation (T rx, T ry, T rz);
 
-            void moveUp             (T u);
-            void moveDown           (T u);
-            void moveLeft           (T u);
-            void moveRight          (T u);
-            void moveForward        (T u);
-            void moveBackward       (T u);
-            void rotatePitchUp      (T u);
-            void rotatePitchDown    (T u);
-            void rotateYawLeft      (T u);
-            void rotateYawRight     (T u);
-            void rotateRollLeft     (T u);
-            void rotateRollRight    (T u);
-    };
- 
-    template <typename T>
-    vect<T> TransformMatrix<T>::getBackward(){
-        constexpr auto v4 = glm::vec4(IMovable<T>::worldBackward, 0);
-        return matrix_ * v4;
-    }
-    
-    
-    template <typename T>
-    vect<T> TransformMatrix<T>::getForward(){
-        constexpr auto v4 = glm::vec4(IMovable<T>::worldForward, 0);
-        return matrix_ * v4;
-    }
-    
-    template <typename T>
-    vect<T> TransformMatrix<T>::getLeft(){
-        constexpr auto v4 = glm::vec4(IMovable<T>::worldLeft, 0);
-        return matrix_ * v4;
-    }
-    
-    template <typename T>
-    vect<T> TransformMatrix<T>::getRight(){
-        constexpr auto v4 = glm::vec4(IMovable<T>::worldRight, 0);
-        return matrix_ * v4;
-    }
-    
-    template <typename T>
-    vect<T> TransformMatrix<T>::getDown(){
-        constexpr auto v4 = glm::vec4(IMovable<T>::worldDown, 0);
-        return matrix_ * v4;
-    }
-    
-    template <typename T>
-    vect<T> TransformMatrix<T>::getUp(){
-        constexpr auto v4 = glm::vec4(IMovable<T>::worldUp, 0);
-        return matrix_ * v4;
-    }
-    
-    template <typename T>
-    vect<T> TransformMatrix<T>::getPosition(){
-        return matrix_[3];
-    }
-    
-    template <typename T>
-    vect<T> TransformMatrix<T>::getScale(){
-        return vect<T>(matrix_[0][0], matrix_[1][1], matrix_[2][2]);
-    }
-    
-    template <typename T>
-    matr<T>& TransformMatrix<T>::getMatrix(){
-        return matrix_;
-    }
-    
-    template <typename T>
-    void TransformMatrix<T>::setPosition        (const vect<T>& pos){
-        //matrix_ = glm::translate<T,glm::defaultp>(glm::identity<matr<T>>(), pos);
-        matrix_[3].x = pos.x;
-        matrix_[3].y = pos.y;
-        matrix_[3].z = pos.z;
-    }
-    
-    template <typename T>
-    void TransformMatrix<T>::setPosition        (T x, T y, T z){
-        //matrix_ = glm::translate<T,glm::defaultp>(matrix_, vect<T>(x,y,z));
-        setPosition(vect<T>(x,y,z));
-    }
-    
-    // TODO Make fast calculations!
-    template <typename T>
-    void TransformMatrix<T>::setScale           (const vect<T>& scale){
-		matrix_ = glm::scale(matrix_, scale);
-    }
-    
-    template <typename T>
-    void TransformMatrix<T>::setScale           (T x, T y, T z){
-		setScale(vect<T>(x,y,z));
-    }
-    
-    template <typename T>
-    void TransformMatrix<T>::setRotation        (const quater<T>& qrot){
-        matrix_ = glm::toMat4(qrot);
-    }
-    
-    template <typename T>
-    void TransformMatrix<T>::setRotation        (T rx, T ry, T rz){
-        matrix_ = glm::toMat4(quater<T>(vect<T>(rx,ry,rz)));
-    }
-    
-    template <typename T>
-    void TransformMatrix<T>::moveUp             (T u){
-        matrix_ = glm::translate(matrix_, u * IMovable<T>::worldUp);
-    }
-    
-    template <typename T>
-    void TransformMatrix<T>::moveDown           (T u){
-        matrix_ = glm::translate(matrix_, u * IMovable<T>::worldDown);
-    }
-    
-    template <typename T>
-    void TransformMatrix<T>::moveLeft           (T u){
-        matrix_ = glm::translate(matrix_, u * IMovable<T>::worldLeft);
-    }
-    
-    template <typename T>
-    void TransformMatrix<T>::moveRight          (T u){
-        matrix_ = glm::translate(matrix_, u * IMovable<T>::worldRight);
-    }
-    
-    template <typename T>
-    void TransformMatrix<T>::moveForward        (T u){
-        matrix_ = glm::translate(matrix_, u * IMovable<T>::worldForward);
-    }
-    
-    template <typename T>
-    void TransformMatrix<T>::moveBackward       (T u){
-        matrix_ = glm::translate(matrix_, u * IMovable<T>::worldBackward);
-    }
-    
-    template <typename T>
-    void TransformMatrix<T>::rotatePitchUp      (T u){
-        matrix_ = glm::rotate(matrix_,u,IMovable<T>::worldRight);
-    }
-    
-    template <typename T>
-    void TransformMatrix<T>::rotatePitchDown    (T u){
-        matrix_ = glm::rotate(matrix_,u,IMovable<T>::worldLeft);
-    }
-    
-    template <typename T>
-    void TransformMatrix<T>::rotateYawLeft      (T u){
-        matrix_ = glm::rotate(matrix_,u,IMovable<T>::worldUp);
-    }
-    
-    template <typename T>
-    void TransformMatrix<T>::rotateYawRight     (T u){
-        matrix_ = glm::rotate(matrix_,u,IMovable<T>::worldDown);
-    }
-    
-    template <typename T>
-    void TransformMatrix<T>::rotateRollLeft     (T u){
-        matrix_ = glm::rotate(matrix_,u,IMovable<T>::worldBackward);
-    }
-    
-    template <typename T>
-    void TransformMatrix<T>::rotateRollRight    (T u){
-        matrix_ = glm::rotate(matrix_,u,IMovable<T>::worldForward);    
-    }
+        inline void move        (vect<T> v);
+        inline void rotate      (quater<T> qrot);
+        inline void scale       (vect<T> v);
+};
+
+template <typename T>
+void TransformMatrix<T>::matrixUpdate(){
+    matrix_[0]      = vect4<T>(0);
+    matrix_[1]      = vect4<T>(0);
+    matrix_[2]      = vect4<T>(0);
+    matrix_[0].x    = scale_.x;
+    matrix_[1].y    = scale_.y;
+    matrix_[2].z    = scale_.z;
+    matrix_[3].x    = position_.x;
+    matrix_[3].y    = position_.y;
+    matrix_[3].z    = position_.z;
+    matrix_[3].w    = 1;
+	matrix_         = glm::toMat4(rotation_) * matrix_;
 }
+
+template <typename T>
+vect<T> TransformMatrix<T>::getBackward(){
+    constexpr auto v4 = vect4<T>(IMovable<T>::worldBackward, 0);
+    return rotation_ * v4;
+}
+
+template <typename T>
+vect<T> TransformMatrix<T>::getForward(){
+    constexpr auto v4 = vect4<T>(IMovable<T>::worldForward, 0);
+    return rotation_ * v4;
+}
+
+template <typename T>
+vect<T> TransformMatrix<T>::getLeft(){
+    constexpr auto v4 = vect4<T>(IMovable<T>::worldLeft, 0);
+    return rotation_ * v4;
+}
+
+template <typename T>
+vect<T> TransformMatrix<T>::getRight(){
+    constexpr auto v4 = vect4<T>(IMovable<T>::worldRight, 0);
+    return rotation_ * v4;
+}
+
+template <typename T>
+vect<T> TransformMatrix<T>::getDown(){
+    constexpr auto v4 = vect4<T>(IMovable<T>::worldDown, 0);
+    return rotation_ * v4;
+}
+
+template <typename T>
+vect<T> TransformMatrix<T>::getUp(){
+    constexpr auto v4 = vect4<T>(IMovable<T>::worldUp, 0);
+    return rotation_ * v4;
+}
+
+template <typename T>
+vect<T> TransformMatrix<T>::getPitch(){
+    constexpr auto v4 = vect4<T>(IMovable<T>::worldPitch, 0);
+    return rotation_ * v4;
+}
+
+template <typename T>
+vect<T> TransformMatrix<T>::getYaw(){
+    constexpr auto v4 = vect4<T>(IMovable<T>::worldYaw, 0);
+    return rotation_ * v4;
+}
+
+template <typename T>
+vect<T> TransformMatrix<T>::getRoll(){
+    constexpr auto v4 = vect4<T>(IMovable<T>::worldRoll, 0);
+    return rotation_ * v4;
+}
+
+template <typename T>
+const vect<T>& TransformMatrix<T>::getScale(){
+    return scale_;
+}
+
+template <typename T>
+const quater<T>& TransformMatrix<T>::getRotation(){
+    return rotation_;
+}
+
+template <typename T>
+const vect<T>& TransformMatrix<T>::getPosition(){
+    return position_;
+}
+
+template <typename T>
+matr<T>& TransformMatrix<T>::getMatrix(){
+    return matrix_;
+}
+
+template <typename T>
+void TransformMatrix<T>::setPosition      (const vect<T>& pos){
+    matrix_[3].x = pos.x;
+    matrix_[3].y = pos.y;
+    matrix_[3].z = pos.z;
+}
+
+template <typename T>
+void TransformMatrix<T>::setPosition        (T x, T y, T z){
+    matrix_[3].x = x;
+    matrix_[3].y = y;
+    matrix_[3].z = z;
+}
+
+template <typename T>
+void TransformMatrix<T>::setScale           (const vect<T>& scale){
+    scale_ = scale;
+    matrixUpdate();
+}
+
+template <typename T>
+void TransformMatrix<T>::setScale           (T x, T y, T z){
+	setScale(vect<T>(x,y,z));
+}
+
+template <typename T>
+void TransformMatrix<T>::setRotation        (const quater<T>& qrot){
+    rotation_ = qrot;
+    matrixUpdate();
+}
+
+template <typename T>
+void TransformMatrix<T>::setRotation        (T rx, T ry, T rz){
+    setRotation(quater<T>(vect<T>(rx, ry, rz)));
+}
+
+template <typename T>
+void TransformMatrix<T>::move(vect<T> v){
+    matrix_[3].x += v.x;
+    matrix_[3].y += v.y;
+    matrix_[3].z += v.z;
+}
+template <typename T>
+void TransformMatrix<T>::rotate(quater<T> qrot){
+    matrix_ = glm::toMat4(qrot) * matrix_;
+}
+
+template <typename T>
+void TransformMatrix<T>::scale(vect<T> v){
+    matrix_[0] *= v[0];
+	matrix_[1] *= v[1];
+	matrix_[2] *= v[2];
+}
+
+} // namespace common

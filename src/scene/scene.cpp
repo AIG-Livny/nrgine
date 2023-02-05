@@ -21,7 +21,7 @@ namespace scene{
     };
     
     void Scene::UpdatePhysics(const float& delta){
-        //physicsWorld_->update(delta);
+        physicsWorld_->update(delta);
         //    for(auto o : physical_objects){
         //auto par = o->parent.lock();
         //auto oldscale = par->GetScale();

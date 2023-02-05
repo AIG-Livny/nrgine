@@ -1,0 +1,29 @@
+BasedOnStyle: LLVM
+ColumnLimit: 0
+IndentWidth: 4
+PointerAlignment: Left
+AlignAfterOpenBracket: BlockIndent 
+AlignConsecutiveAssignments: Consecutive
+AlignConsecutiveDeclarations: true
+AlignEscapedNewlines : true
+AlignOperands: true
+AllowAllArgumentsOnNextLine: true
+AllowAllParametersOfDeclarationOnNextLine: true
+
+AllowShortBlocksOnASingleLine: Always
+AllowShortCaseLabelsOnASingleLine: true
+AllowShortEnumsOnASingleLine: true 
+AllowShortFunctionsOnASingleLine: true 
+
+BinPackArguments: true
+BinPackParameters: true
+
+BreakConstructorInitializers: AfterColon
+BreakInheritanceList: AfterColon
+
+IndentAccessModifiers: true
+
+PackConstructorInitializers: Never
+QualifierAlignment: Left
+FixNamespaceComments: true
+InsertBraces: true

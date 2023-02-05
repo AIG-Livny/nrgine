@@ -1,8 +1,8 @@
 #pragma once
 
-#include "common/forwards.h"
+#include "scene/scene.h"
 
 class Renderer{
     public:
-        void Render(const pu<scene::Scene>& scene);
+        void Render(const std::unique_ptr<scene::Scene>& scene);
 };

@@ -9,37 +9,37 @@ TEST(resources_shader, Not_load_missing_path){
 TEST(resources_shader, Preload){
     ASSERT_NO_THROW(resources::Shader e("test/res/shader"));
     resources::Shader s("test/res/shader");
-    ASSERT_EQ(s.getLoadState(), resources::LoadState::NotLoaded);
+    ASSERT_EQ(s.getLoadState(), common::IResource::LoadState::NotLoaded);
     s.setPreloaded();
     ASSERT_FALSE(s.getVertexShader().empty());
-    ASSERT_EQ(s.getLoadState(), resources::LoadState::PreLoaded);
+    ASSERT_EQ(s.getLoadState(), common::IResource::LoadState::PreLoaded);
 }
 
 TEST(resources_shader, Load){
     ASSERT_NO_THROW(resources::Shader e("test/res/shader"));
     resources::Shader s("test/res/shader");
-    ASSERT_EQ(s.getLoadState(), resources::LoadState::NotLoaded);
+    ASSERT_EQ(s.getLoadState(), common::IResource::LoadState::NotLoaded);
     ASSERT_EQ(s.getHandler(), 0);
     ASSERT_TRUE(s.getVertexShader().empty());
     s.setLoaded();
     ASSERT_FALSE(s.getVertexShader().empty());
     ASSERT_NE(s.getHandler(), 0);
-    ASSERT_EQ(s.getLoadState(), resources::LoadState::Loaded);
+    ASSERT_EQ(s.getLoadState(), common::IResource::LoadState::Loaded);
 }
 
 TEST(resources_shader, Unload){
     resources::Shader s("test/res/shader");
-    ASSERT_EQ(s.getLoadState(), resources::LoadState::NotLoaded);
+    ASSERT_EQ(s.getLoadState(), common::IResource::LoadState::NotLoaded);
     ASSERT_EQ(s.getHandler(), 0);
     ASSERT_TRUE(s.getVertexShader().empty());
     s.setLoaded();
     ASSERT_FALSE(s.getVertexShader().empty());
     ASSERT_NE(s.getHandler(), 0);
-    ASSERT_EQ(s.getLoadState(), resources::LoadState::Loaded);
+    ASSERT_EQ(s.getLoadState(), common::IResource::LoadState::Loaded);
     s.setUnloaded();
     ASSERT_TRUE(s.getVertexShader().empty());
     ASSERT_EQ(s.getHandler(), 0);
-    ASSERT_EQ(s.getLoadState(), resources::LoadState::NotLoaded);
+    ASSERT_EQ(s.getLoadState(), common::IResource::LoadState::NotLoaded);
 }
 
 TEST(resources_shader, Load_from_preloaded){
@@ -48,7 +48,7 @@ TEST(resources_shader, Load_from_preloaded){
     s.setLoaded();
     ASSERT_FALSE(s.getVertexShader().empty());
     ASSERT_NE(s.getHandler(), 0);
-    ASSERT_EQ(s.getLoadState(), resources::LoadState::Loaded);
+    ASSERT_EQ(s.getLoadState(), common::IResource::LoadState::Loaded);
 }
 
 TEST(resources_shader, Unload_from_preloaded){
@@ -57,6 +57,6 @@ TEST(resources_shader, Unload_from_preloaded){
     s.setUnloaded();
     ASSERT_TRUE(s.getVertexShader().empty());
     ASSERT_EQ(s.getHandler(), 0);
-    ASSERT_EQ(s.getLoadState(), resources::LoadState::NotLoaded);
+    ASSERT_EQ(s.getLoadState(), common::IResource::LoadState::NotLoaded);
 }
 

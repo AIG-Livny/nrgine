@@ -46,32 +46,31 @@ Application::Application(){
       
     auto shader = resourceManager_->addShader("res/shaders");
     shader->setLoaded();
-    auto modelnode = currentScene_->getRoot()->createChildNode();
-    //auto cameranode = current_scene->root->CreateChildNode();
-    //auto lightnode = scene->root->CreateChildNode();
-    //auto lightnode = modelnode->CreateChildNode();
-    //modelnode->CreateModel("res/box.obj");
-    //for(int i = 0; i<10;i++){
-    //    auto model2node = current_scene->root->CreateChildNode();
-    //    model2node->CreateModel("res/box.obj");
-    //    model2node->matrix.set_position(5,-9+(i*2.1),-3);
-    //    auto mod2phys = model2node->CreatePhysicalObject();
-    //    //mod2phys->body->addCollider (physics_common->createBoxShape(reactphysics3d::Vector3(1,1,1)) , reactphysics3d::Transform::identity() );
-    //}
-    //modelnode->CreateModel("res/backpack/backpack.obj");
-    //lightnode->CreateLight();
-    //lightnode->CreateModel("res/icosphere.obj");
-    //lightnode->matrix.set_position(5,5,-3);
-    //cameranode->CreateCamera(); 
-    //cameranode->matrix.set_position(3,0,10);
-    //auto floor = current_scene->root->CreateChildNode();
-    //floor->SetPosition(0,-10,0);
-    //floor->SetScale(100,1,100);
-    //floor->CreateModel("res/box.obj");
-    //auto phys_floor = floor->CreatePhysicalObject();
-    //phys_floor->body->setType(reactphysics3d::BodyType::STATIC);
-    //reactphysics3d::BoxShape* BoxShape = physics_common->createBoxShape(reactphysics3d::Vector3(100,1,100)); 
-    //phys_floor->body->addCollider (BoxShape , reactphysics3d::Transform::identity() );
+    auto& modelnode = currentScene_->getRoot()->createChildNode();
+    auto& cameranode = currentScene_->getRoot()->createChildNode();
+    auto& lightnode = currentScene_->getRoot()->createChildNode();
+    modelnode.createModel("res/box.obj");
+    for(int i = 0; i<10;i++){
+        auto& model2node = currentScene_->getRoot()->createChildNode();
+        model2node.createModel("res/box.obj");
+        model2node.setPosition(5,-9+(i*2.1),-3);
+        auto& mod2phys = model2node.createPhysical();
+        mod2phys.getBody()->addCollider(physicsCommon_->createBoxShape(reactphysics3d::Vector3(1,1,1)) , reactphysics3d::Transform::identity() );
+    }
+    modelnode.createModel("res/backpack/backpack.obj");
+    lightnode.createLight();
+    lightnode.createModel("res/icosphere.obj");
+    lightnode.setPosition(5,5,-3);
+    cameranode.createCamera(); 
+    cameranode.setPosition(3,0,10);
+    auto& floor = currentScene_->getRoot()->createChildNode();
+    floor.setPosition(0,-10,0);
+    floor.setScale(100,1,100);
+    floor.createModel("res/box.obj");
+    auto& phys_floor = floor.createPhysical();
+    phys_floor.getBody()->setType(reactphysics3d::BodyType::STATIC);
+    reactphysics3d::BoxShape* BoxShape = getPhysicsCommon()->createBoxShape(reactphysics3d::Vector3(100,1,100)); 
+    phys_floor.getBody()->addCollider(BoxShape , reactphysics3d::Transform::identity() );
     
 
 
@@ -92,7 +91,51 @@ void Application::keyPressEvent(int key, int scancode, int action, int mods){
 }
 
 void Application::run(){
-    while(1){
-        glfwPollEvents();
-    }
+    while (!glfwWindowShouldClose(window_)){
+        float currentFrame = glfwGetTime();
+        static float deltaTime;
+        static float lastFrame;
+        
+        deltaTime = currentFrame - lastFrame;
+        lastFrame = currentFrame;
+        
+        int display_w, display_h;
+        glfwGetFramebufferSize(window_, &display_w, &display_h);
+        glViewport(0, 0, display_w, display_h);
+        glClearColor(0.45f,  0.55f, 0.60f,1.00f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        currentScene_->UpdatePhysics(deltaTime);
+        renderer_->Render(currentScene_);        
+        
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+	    ImGui::NewFrame();
+
+        static double last_time;
+        double current_time = glfwGetTime();
+        static float fps;
+        if ((current_time - last_time) >= 1.0){
+            fps = ImGui::GetIO().Framerate;
+            last_time = current_time;
+        }
+    
+        ImGui::SetNextWindowSize(ImVec2(300,100), ImGuiCond_FirstUseEver);
+        ImGui::Begin("info");
+        ImGui::Text("FPS: %f",fps);
+        //auto campos = currentScene_->active_camera->parent.lock()->matrix.get_position();
+        //ImGui::Text("Cam pos: X:%f Y:%f Z:%f",campos.x, campos.y, campos.z);
+        ImGui::End();
+
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+        glfwSwapBuffers(window_);  
+		glfwPollEvents();
+	}
+    
+
+	// Cleanup
+    glfwDestroyWindow(window_);
+    glfwTerminate();
 }

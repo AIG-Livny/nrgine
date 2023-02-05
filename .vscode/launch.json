@@ -5,7 +5,7 @@
             "name": "Debug",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/bin/aigengine",
+            "program": "${workspaceFolder}/bin/nrgine",
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "externalConsole": false,

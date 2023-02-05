@@ -2,8 +2,19 @@
 NRgine is my 3d engine for training C++ skills. Also it provides access for any recruitment managers to check my source code quality.
 
 ## Installation
+### Ubuntu:
+- Install libraries:
+```
+sudo apt install \
+libglew-dev \
+libstb-dev \
+libgtest-dev \
+libglm-dev \
+libassimp-dev
+```
 ### Windows:
-If you are using msys2, install next packages:
+- Install msys2
+- Run command to intall packages:
 ```
 pacman -S \
 mingw-w64-x86_64-glew \

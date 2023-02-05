@@ -13,9 +13,9 @@ TEST(resources_model, Not_load_bad_model){
 TEST(resources_model, Preload) {
     ASSERT_NO_THROW(resources::Model a("test/res/box.obj"));
     resources::Model m("test/res/box.obj");
-    ASSERT_EQ(m.getLoadState(), resources::LoadState::NotLoaded);
+    ASSERT_EQ(m.getLoadState(), common::IResource::LoadState::NotLoaded);
     m.setPreloaded();
-    ASSERT_EQ(m.getLoadState(), resources::LoadState::PreLoaded);
+    ASSERT_EQ(m.getLoadState(), common::IResource::LoadState::PreLoaded);
     ASSERT_NE(m.getMeshes().size(),0);
     for(const auto& mesh : m.getMeshes()){
         ASSERT_NE(mesh.vertices->size(), 0);
@@ -25,7 +25,7 @@ TEST(resources_model, Preload) {
 TEST(resources_model, Load) {
     resources::Model m("test/res/box.obj");
     m.setLoaded();
-    ASSERT_EQ(m.getLoadState(), resources::LoadState::Loaded);
+    ASSERT_EQ(m.getLoadState(), common::IResource::LoadState::Loaded);
     ASSERT_NE(m.getMeshes().size(),0);
     for(const auto& mesh : m.getMeshes()){
         ASSERT_NE(mesh.vertexArrayObject, 0);
@@ -46,9 +46,9 @@ TEST(resources_model, Resume_from_Loaded_to_preloaded_state) {
 TEST(resources_model, Unload) {
     resources::Model m("test/res/box.obj");
     m.setLoaded();
-    ASSERT_EQ(m.getLoadState(), resources::LoadState::Loaded);
+    ASSERT_EQ(m.getLoadState(), common::IResource::LoadState::Loaded);
     ASSERT_NE(m.getMeshes().size(),0);
     m.setUnloaded();
-    ASSERT_EQ(m.getLoadState(), resources::LoadState::NotLoaded);
+    ASSERT_EQ(m.getLoadState(), common::IResource::LoadState::NotLoaded);
     ASSERT_EQ(m.getMeshes().size(),0);
 }

@@ -1,4 +1,4 @@
-OUT_FILE        = bin/aigengine
+OUT_FILE        = bin/NRgine
 LINK_FLAGS 		= -g -O0
 CFLAGS 			= -std=c++20 -fno-math-errno -g -O0
 

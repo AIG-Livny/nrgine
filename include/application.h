@@ -1,18 +1,27 @@
 #pragma once
 
-#include "common/forwards.h"
+#include <GL/glew.h>
+#include <GLFW/glfw3.h> 
+
+#include "reactphysics3d/reactphysics3d.h"
+#include "resources/manager.h"
+#include "scene/scene.h"
+#include "renderer.h"
 
 class Application{
     private:
-        pu<reactphysics3d::PhysicsCommon>   physicsCommon_;
-        pu<resources::Manager>              resourceManager_;
-        pu<Renderer>                        renderer_;
-        pu<scene::Scene>                    currentScene_;
+        std::unique_ptr<reactphysics3d::PhysicsCommon>   physicsCommon_;
+        std::unique_ptr<resources::Manager>              resourceManager_;
+        std::unique_ptr<Renderer>                        renderer_;
+        std::unique_ptr<scene::Scene>                    currentScene_;
         GLFWwindow*                         window_;
 
     public:
         Application();
         ~Application();
+
+        Application(const Application&)               = delete;
+        Application& operator=(const Application&)    = delete;
         
         [[nodiscard]] inline const auto& getPhysicsCommon  (){return physicsCommon_;}
         [[nodiscard]] inline const auto& getResourceManager(){return resourceManager_;}
