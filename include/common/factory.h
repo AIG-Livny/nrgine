@@ -7,7 +7,7 @@
 namespace common{
 /*
     Factory used for automatic register new class derived from common 
-    base class, and creating them by id or typename.
+    base class, and creating them by id or typename. It separates building manager/classes. 
     
     Define TMyFactory, example:     using TMyFactory = common::Factory<MyClassBase, void*>
     where after "MyClassBase" any number of arguments constructor MyClassBase.
