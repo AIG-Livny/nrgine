@@ -16,9 +16,9 @@ Node::Node(Node* parent, Scene* scene) :
 
 Node& Node::createChildNode() {
     childs_.push_back(std::make_unique<Node>(this, scene_));
-    return *(childs_.end()->get());
+    return *childs_.back();
 }
-
+/*
 objects::Model& Node::createModel(std::string path) {
     assets_.push_back(std::make_unique<objects::Model>(this, path));
     return *static_cast<objects::Model*>(assets_.end()->get());
@@ -38,5 +38,5 @@ objects::Camera& Node::createCamera() {
     assets_.push_back(std::make_unique<objects::Camera>(this));
     return *static_cast<objects::Camera*>(assets_.end()->get());
 }
-
+*/
 } // namespace scene

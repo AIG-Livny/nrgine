@@ -1,6 +1,6 @@
 #pragma once
 
-#include "scene/objects/basic.h"
+#include "scene/objects/common.h"
 #include "reactphysics3d/reactphysics3d.h"
 
 namespace scene{
@@ -9,12 +9,13 @@ namespace scene{
 
 namespace scene::objects{
     
-class Physical : public Basic{
+class TPhysical : public Common{
     private:
         reactphysics3d::RigidBody* body_;
         
     public:
-        Physical(Node* parent);
+        TPhysical(Node* parent);
+        ~TPhysical();
         
         [[nodiscard]] inline auto* getBody(){ return body_; }
 };

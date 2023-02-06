@@ -2,7 +2,7 @@
 
 #include <glm/glm.hpp>
 
-#include "scene/objects/basic.h"
+#include "scene/objects/common.h"
 
 namespace scene{
     class Node;
@@ -10,7 +10,7 @@ namespace scene{
 
 namespace scene::objects{
     
-class Camera:public Basic{
+class TCamera:public Common{
     private:
         glm::mat4 projection_;
         glm::mat4 view_;
@@ -24,7 +24,7 @@ class Camera:public Basic{
         void calculateView(void);
 
     public:
-	    Camera(Node* parent);
+	    TCamera(Node* parent);
 
         inline void setFov    (float f);
         inline void setAspect (float f);

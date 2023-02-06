@@ -5,11 +5,13 @@
 
 #include "common/interfaces/IMovable.h"
 #include "common/transform_matrix.h"
-#include "scene/objects/basic.h"
-#include "scene/objects/model.h"
-#include "scene/objects/physical.h"
-#include "scene/objects/light.h"
-#include "scene/objects/camera.h"
+#include "scene/objects/common.h"
+
+
+// #include "scene/objects/model.h"
+// #include "scene/objects/physical.h"
+// #include "scene/objects/light.h"
+// #include "scene/objects/camera.h"
 
 namespace scene {
 
@@ -22,7 +24,7 @@ class Node : public common::IMovable<float> {
         Node*                                      parent_;
         Scene*                                     scene_;
         std::list<std::unique_ptr<Node>>           childs_;
-        std::list<std::unique_ptr<objects::Basic>> assets_;
+        std::list<std::unique_ptr<objects::Common>> assets_;
 
     public:
         Node(Node* parent, Scene* scene);
@@ -62,10 +64,23 @@ class Node : public common::IMovable<float> {
 
         Node&           createChildNode();
  
-        objects::Model&     createModel     (std::string path);
-        objects::Physical&  createPhysical  ();
-        objects::Light&     createLight     ();
-        objects::Camera&    createCamera    ();
+        template<int Tid>
+        std::list<objects::Common*>& getObjects(){
+            static std::list<objects::Common*> objectsList;
+            return objectsList;
+        }
+    
+        template<int Tid>
+        objects::Common& create(){
+            assets_.push_back(objects::TFactory::Create(Tid, this));
+            getObjects<Tid>().push_back(assets_.end()->get());
+            return *assets_.back();
+        }
+ 
+        //objects::Model&     createModel     (std::string path);
+        //objects::Physical&  createPhysical  ();
+        //objects::Light&     createLight     ();
+        //objects::Camera&    createCamera    ();
 };
 
 } // namespace scene

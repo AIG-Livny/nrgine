@@ -1,4 +1,5 @@
 #include "scene/objects/camera.h"
+FACTORY_CLASS_REGISTER(scene::objects::TFactory, scene::objects::TCamera, scene::objects::Camera);
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -7,41 +8,41 @@
 
 namespace scene::objects{
     
-Camera::Camera(Node* parent):
-Basic(parent)
+TCamera::TCamera(Node* parent):
+Common(parent)
 {
     calculateProjection();
 }
     
-void Camera::calculateProjection(void){
+void TCamera::calculateProjection(void){
     projection_ = glm::perspective(glm::radians(fieldOfView_), aspect_, near_, far_);
 }   
 
-void Camera::setFov(float f){
+void TCamera::setFov(float f){
     fieldOfView_ = f;
     calculateProjection();
 }
     
-void Camera::setAspect(float f){
+void TCamera::setAspect(float f){
     aspect_ = f;
     calculateProjection();
 }
 
-void Camera::setNear(float f){
+void TCamera::setNear(float f){
     near_ = f;
     calculateProjection();
 }
 
-void Camera::setFar(float f){
+void TCamera::setFar(float f){
     far_ = f;
     calculateProjection();
 }
 
-inline const glm::mat4& Camera::getProjection(void){
+inline const glm::mat4& TCamera::getProjection(void){
     return projection_;
 }
 
-inline const glm::mat4& Camera::getView(void){
+inline const glm::mat4& TCamera::getView(void){
     view_ = glm::lookAt(
         getParent()->getPosition(),
         getParent()->getPosition() + getParent()->getForward(),
@@ -51,14 +52,3 @@ inline const glm::mat4& Camera::getView(void){
 }
 
 } // namespace scene::objects
-
-/*
-#include "scene/objects/basic/camera.h"
-
-#include <memory>
-
-#include "scene/node.h"
-#include "scene/objects/basic/basic_object.h"
-
-
-*/

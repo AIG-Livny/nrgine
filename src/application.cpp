@@ -13,6 +13,8 @@
 #include "reactphysics3d/reactphysics3d.h"
 #include "scene/scene.h"
 #include "scene/node.h"
+#include "scene/objects/common.h"
+#include "scene/objects/model.h"
 #include "resources/manager.h"
 #include "resources/resource.h"
 #include "resources/shader.h"
@@ -49,28 +51,31 @@ Application::Application(){
     auto& modelnode = currentScene_->getRoot()->createChildNode();
     auto& cameranode = currentScene_->getRoot()->createChildNode();
     auto& lightnode = currentScene_->getRoot()->createChildNode();
-    modelnode.createModel("res/box.obj");
+    auto& model = modelnode.create<scene::objects::Model>();
+    
+    //std::cout << modelnode.getObjects<scene::objects::Model>().size();
+    // static_cast<scene::objects::TModel&>(model).;
     for(int i = 0; i<10;i++){
         auto& model2node = currentScene_->getRoot()->createChildNode();
-        model2node.createModel("res/box.obj");
+        model2node.create<scene::objects::Model>();
         model2node.setPosition(5,-9+(i*2.1),-3);
-        auto& mod2phys = model2node.createPhysical();
-        mod2phys.getBody()->addCollider(physicsCommon_->createBoxShape(reactphysics3d::Vector3(1,1,1)) , reactphysics3d::Transform::identity() );
+        //auto& mod2phys = model2node.createPhysical();
+        //mod2phys.getBody()->addCollider(physicsCommon_->createBoxShape(reactphysics3d::Vector3(1,1,1)) , reactphysics3d::Transform::identity() );
     }
-    modelnode.createModel("res/backpack/backpack.obj");
-    lightnode.createLight();
-    lightnode.createModel("res/icosphere.obj");
+    //modelnode.createModel("res/backpack/backpack.obj");
+    //lightnode.createLight();
+    //lightnode.createModel("res/icosphere.obj");
     lightnode.setPosition(5,5,-3);
-    cameranode.createCamera(); 
+    //cameranode.createCamera(); 
     cameranode.setPosition(3,0,10);
     auto& floor = currentScene_->getRoot()->createChildNode();
     floor.setPosition(0,-10,0);
     floor.setScale(100,1,100);
-    floor.createModel("res/box.obj");
-    auto& phys_floor = floor.createPhysical();
-    phys_floor.getBody()->setType(reactphysics3d::BodyType::STATIC);
+    //floor.createModel("res/box.obj");
+    //auto& phys_floor = floor.createPhysical();
+    //phys_floor.getBody()->setType(reactphysics3d::BodyType::STATIC);
     reactphysics3d::BoxShape* BoxShape = getPhysicsCommon()->createBoxShape(reactphysics3d::Vector3(100,1,100)); 
-    phys_floor.getBody()->addCollider(BoxShape , reactphysics3d::Transform::identity() );
+    //phys_floor.getBody()->addCollider(BoxShape , reactphysics3d::Transform::identity() );
     
 
 

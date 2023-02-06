@@ -1,6 +1,6 @@
 #pragma once
 
-#include "scene/objects/basic.h"
+#include "scene/objects/common.h"
 
 namespace scene{
     class Node;
@@ -8,10 +8,10 @@ namespace scene{
 
 namespace scene::objects{
 
-class Light : public Basic{
+class TLight : public Common{
     public:
-	    Light(Node* parent):
-        Basic(parent)
+	    TLight(Node* parent):
+        Common(parent)
         {};
 };
 

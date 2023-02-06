@@ -5,7 +5,7 @@
 
 #include "common/interfaces/IResource.h"
 #include "common/interfaces/IMovable.h"
-#include "scene/objects/basic.h"
+#include "scene/objects/common.h"
 #include "resources/model.h"
 #include "resources/shader.h"
 
@@ -15,8 +15,8 @@ namespace scene{
 
 namespace scene::objects{
     
-class Model : 
-    public Basic, 
+class TModel : 
+    public Common, 
     public common::IResource,
     public common::IMovable<float>
     {
@@ -25,10 +25,9 @@ class Model :
         std::shared_ptr<resources::Shader> resource_shader_;
          
     public:
-        Model(Node* parent, const std::string& path)
+        TModel(Node* parent)
         :
-        Basic(parent),
-        resource_model_(std::make_unique<resources::Model>(path))
+        Common(parent)
         {}
         
         // IResource

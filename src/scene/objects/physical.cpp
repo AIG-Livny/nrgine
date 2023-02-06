@@ -1,4 +1,5 @@
 #include "scene/objects/physical.h"
+FACTORY_CLASS_REGISTER(scene::objects::TFactory, scene::objects::TPhysical, scene::objects::Physical);
 
 #include "reactphysics3d/reactphysics3d.h"
 #include "scene/scene.h"
@@ -6,8 +7,8 @@
 
 namespace scene::objects{
     
-Physical::Physical(Node* parent):
-Basic(parent)
+TPhysical::TPhysical(Node* parent):
+Common(parent)
 {
     const glm::quat& glq = getParent()->getRotation();
     reactphysics3d::Quaternion  rqu(glq.x, glq.y, glq.z, glq.w);
@@ -21,22 +22,8 @@ Basic(parent)
     
 }
     
-}// namespace scene::objects
-
-/*
-#include "scene/objects/basic/physical.h"
-
-#include "application.h"
-#include "scene/scene.h"
-#include "scene/node.h"
-
-PhysicalObject::PhysicalObject(pwSceneNode parent) : BasicObject(parent){
+TPhysical::~TPhysical(void){
+    getParent()->getScene()->getPhysicsWorld()->destroyRigidBody(body_);
+}
     
-}
-
-PhysicalObject::~PhysicalObject(void){
-    auto par = parent.lock();
-    auto scn = par->scene.lock();
-    scn->physics_world->destroyRigidBody(body);
-}
-*/
+}// namespace scene::objects
