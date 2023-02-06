@@ -2,13 +2,28 @@
 
 #include <memory>
 #include <map>
+#include <stdexcept>
 
 namespace common{
-
-template<class _Base>
+/*
+    Factory used for automatic register new class derived from common 
+    base class, and creating them by id or typename.
+    
+    Define TMyFactory, example:     using TMyFactory = common::Factory<MyClassBase, void*>
+    where after "MyClassBase" any number of arguments constructor MyClassBase.
+    It's necessary for macro expansion FACTORY_CLASS_REGISTER where you can't use commas.
+    
+    To register a new class paste FACTORY_CLASS_REGISTER(FACTORY, CLASS, NUM)
+    next to the #include "myclass.h" in the myclass.cpp, example: 
+        #include "myclass.h"
+        FACTORY_CLASS_REGISTER(TMyFactory, MyClass, MyEnum::MyClass)
+    
+    For creating use: examle: TMyFactory::Create(MyEnum::MyClass, nullptr)
+*/
+template<class _Base, class... _Args>
 class Factory{    
-    using CreatorT  = std::unique_ptr<_Base> (*)(void*);
-    using MapT      = std::map<const char*, CreatorT>;
+    using CreatorT  = std::unique_ptr<_Base> (*)(_Args...);
+    using MapT      = std::map<int, CreatorT>;
     
     private:
         inline static MapT& getMap(){
@@ -20,27 +35,31 @@ class Factory{
         class Register{
             public:
                 static CreatorT creator;
-                static std::unique_ptr<_Base> Create(void* parent){return std::make_unique<_Object>(parent);}    
-                static CreatorT initCreator(){
-                    getMap()[typeid(_Object).name()] = Create;
+                static std::unique_ptr<_Base> Create(_Args... args){return std::make_unique<_Object>(args...);}    
+                static CreatorT initCreator(int i){
+                    getMap()[i] = Create;
                     return Create;
                 }
         };    
 
     public:
-        template<class _Object>
-        static std::unique_ptr<_Base> Create(void* parent){ 
-            auto iter = getMap().find(typeid(_Object).name());
-            if(iter == getMap().end()) return nullptr;
-            return iter->second(parent);    
+        [[nodiscard]] inline static std::unique_ptr<_Base> Create(int i,_Args... args){ 
+            auto iter = getMap().find(i);
+            if(iter == getMap().end()){ 
+                throw std::range_error("Class not found"); 
+            }
+            return iter->second(args...);    
         }
+        
+        [[nodiscard]] inline static std::size_t size(){return getMap().size();}
 };
 
 /*
     Register class in factory
-    @param BASE  - MyClassBase
-    @param CLASS - MyClass derived from MyClassBase
+    @param FACTORY  - TMyFactory
+    @param CLASS    - MyClass derived from MyClassBase
+    @param NUM      - unique int id of class. It can be enum
 */
-#define FACTORY_CLASS_REGISTER(BASE, CLASS) template<>template<>common::Factory<BASE>::CreatorT common::Factory<BASE>::Register<CLASS>::creator = common::Factory<BASE>::Register<CLASS>::initCreator();
+#define FACTORY_CLASS_REGISTER(FACTORY, CLASS, NUM) template<>template<>FACTORY::CreatorT FACTORY::Register<CLASS>::creator = FACTORY::Register<CLASS>::initCreator(NUM);
 
 } // namespace common
