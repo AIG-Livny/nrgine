@@ -13,7 +13,7 @@
         {
             "label": "run",
             "type": "shell",
-            "command": "make run",
+            "command": "make -j run",
             "presentation": {
                 "clear": true
             }
@@ -21,7 +21,7 @@
         {
             "label": "clean",
             "type": "shell",
-            "command": "make clean",
+            "command": "make -j clean",
             "presentation": {
                 "clear": true
             }
@@ -29,7 +29,7 @@
         {
             "label": "cleanall",
             "type": "shell",
-            "command": "make cleanall",
+            "command": "make -j cleanall",
             "presentation": {
                 "clear": true
             }
@@ -37,7 +37,7 @@
         {
             "label": "cleanall.withsubprojects",
             "type": "shell",
-            "command": "make cleanall.withsubprojects",
+            "command": "make -j cleanall.withsubprojects",
             "presentation": {
                 "clear": true
             }
@@ -45,7 +45,7 @@
         {
             "label": "runtest",
             "type": "shell",
-            "command": "make runtest",
+            "command": "make -j test",
             "presentation": {
                 "clear": true
             }

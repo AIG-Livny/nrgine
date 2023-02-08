@@ -71,14 +71,14 @@ TESTS_OBJECTS = $(foreach src, $(TESTS_SOURCES), $(OBJ_PATH)/$(basename $(src)).
 TESTS_DEPS    = $(TESTS_OBJECTS:%.o=%.d)
 
 # Artificial targets
-.PHONY: all app tests clean cleanall clean.withsubprojects cleanall.withsubprojects runtest run
+.PHONY: all app buildtests clean cleanall clean.withsubprojects cleanall.withsubprojects test run
 
 all: app $(if $(strip $(TESTS_SOURCES)),tests,)
 app: $(SUBPROJECTS) $(OUT_FILE)
-tests: app $(TESTS_DIR)/bin/test
+buildtests: app $(TESTS_DIR)/bin/test
 run: app
 	@$(OUT_FILE)	
-runtest: tests
+test: buildtests
 	@$(TESTS_DIR)/bin/test
 
 
