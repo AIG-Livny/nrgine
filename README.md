@@ -3,7 +3,7 @@ NRgine is my 3d engine for training C++ skills. Also it provides access for any 
 
     !IMPORTANT! This repo is under construction right now.
     Means it will not build and doesn't have any branches. (dev, experiment, etc...)
-Near targets to make first working version:
+Nearest targets to make first working version:
 - [X] Renderer
 - [X] Macro objects factory 
 
