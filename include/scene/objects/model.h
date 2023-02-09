@@ -4,8 +4,8 @@
 #include <filesystem>
 
 #include "common/interfaces/IResource.h"
-#include "common/interfaces/IMovable.h"
-#include "scene/objects/common.h"
+#include "scene/node.h"
+#include "scene/objects/object.h"
 #include "resources/model.h"
 #include "resources/shader.h"
 
@@ -16,19 +16,23 @@ namespace scene{
 namespace scene::objects{
     
 class TModel : 
-    public Common, 
-    public common::IResource,
-    public common::IMovable<float>
+    public Object, 
+    public common::IResource
     {
     private:
-        std::shared_ptr<resources::Model>  resource_model_;
-        std::shared_ptr<resources::Shader> resource_shader_;
+        std::shared_ptr<resources::Model>  resourceModel_;
+        std::shared_ptr<resources::Shader> resourceShader_;
          
     public:
-        TModel(Node* parent)
-        :
-        Common(parent)
-        {}
+        TModel(Node* parent);
+        
+        inline void setModel (std::shared_ptr<resources::Model>  model ){resourceModel_  = model; }
+        inline void setShader(std::shared_ptr<resources::Shader> shader){resourceShader_ = shader;}
+        [[nodiscard]] inline auto getModel (){return resourceModel_; }
+        [[nodiscard]] inline auto getShader (){return resourceShader_; }
+        
+        // Object
+        [[nodiscard]] inline Type   getType(){return Type::Model;}
         
         // IResource
         void setLoaded();
@@ -36,32 +40,7 @@ class TModel :
         void setUnloaded();
         
         inline const std::filesystem::path&         getPath();
-        inline const common::IResource::LoadState&  getLoadState();
-        
-        // IMovable
-        [[nodiscard]] inline       glm::vec3    getBackward      ();
-        [[nodiscard]] inline       glm::vec3    getForward       ();
-        [[nodiscard]] inline       glm::vec3    getLeft          ();
-        [[nodiscard]] inline       glm::vec3    getRight         ();
-        [[nodiscard]] inline       glm::vec3    getDown          ();
-        [[nodiscard]] inline       glm::vec3    getUp            ();
-        [[nodiscard]] inline       glm::vec3    getPitch         ();
-        [[nodiscard]] inline       glm::vec3    getYaw           ();
-        [[nodiscard]] inline       glm::vec3    getRoll          ();
-        [[nodiscard]] inline const glm::vec3&   getScale         ();
-        [[nodiscard]] inline const glm::quat&   getRotation      ();
-        [[nodiscard]] inline const glm::vec3&   getPosition      ();
-        [[nodiscard]] inline       glm::mat4&   getMatrix        ();
-                      inline       void         setPosition      (const glm::vec3& pos);
-                      inline       void         setPosition      (float x, float y, float z);
-                      inline       void         setScale         (const glm::vec3& scale);
-                      inline       void         setScale         (float x, float y, float z);
-                      inline       void         setRotation      (const glm::quat& qrot);
-                      inline       void         setRotation      (float rx, float ry, float rz);
-                      inline       void         move             (glm::vec3 v);
-                      inline       void         rotate           (glm::quat qrot);
-                      inline       void         scale            (glm::vec3 v);
-                      
+        inline const common::IResource::LoadState&  getLoadState();             
 };
     
 } // END namespace scene::objects

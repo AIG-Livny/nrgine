@@ -31,6 +31,9 @@ namespace resources{
         if(auto a = findResource(path)){return std::static_pointer_cast<Model>(a);}
         auto m = std::make_shared<Model>(path);
         resources_.push_back(std::static_pointer_cast<Resource>(m));
+        if(defaultModel_ == nullptr){
+            defaultModel_ = m;
+        }
         return m;
     }
     
@@ -38,6 +41,9 @@ namespace resources{
         if(auto a = findResource(path)){return std::static_pointer_cast<Shader>(a);}
         auto m = std::make_shared<Shader>(path);
         resources_.push_back(std::static_pointer_cast<Resource>(m));
+        if(defaultShader_ == nullptr){
+            defaultShader_ = m;
+        }
         return m;
     }
 }

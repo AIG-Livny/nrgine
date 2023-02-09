@@ -21,8 +21,9 @@ void main(){
    //Normal      = vec3(mModel * vec4(v_nor, 1.0));
    Normal      = v_nor;
    FragPos     = vec3(mModel * vec4(v_pos, 1.0));
+   //FragPos     = vec3(mvp * vec4(v_pos, 1.0));
    TexCoords   = v_tex;
-   gl_Position = mvp * vec4(v_pos,1);
+   //gl_Position = mvp * vec4(v_pos,1);
 
    //FragPos = vec3(mModel * vec4(v_pos, 1.0));
    //Normal.x = v_nor.z;
@@ -30,5 +31,5 @@ void main(){
    //Normal.z = v_nor.z;
    //Normal = v_nor;
    //Normal = mat3(transpose(inverse(mModel))) * v_nor; 
-   //gl_Position = mProjection * mView * vec4(FragPos, 1.0);
+   gl_Position = mProjection * mView * vec4(FragPos, 1.0);
 }

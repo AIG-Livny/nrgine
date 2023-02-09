@@ -8,7 +8,7 @@ FACTORY_CLASS_REGISTER(scene::objects::TFactory, scene::objects::TPhysical, scen
 namespace scene::objects{
     
 TPhysical::TPhysical(Node* parent):
-Common(parent)
+Object(parent)
 {
     const glm::quat& glq = getParent()->getRotation();
     reactphysics3d::Quaternion  rqu(glq.x, glq.y, glq.z, glq.w);
@@ -19,6 +19,7 @@ Common(parent)
     
     //transform.setFromOpenGL((reactphysics3d::decimal*)&par->matrix);
     body_ = getParent()->getScene()->getPhysicsWorld()->createRigidBody(transform);
+    
     
 }
     

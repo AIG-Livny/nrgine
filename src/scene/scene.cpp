@@ -3,6 +3,7 @@
 #include "application.h"
 #include "reactphysics3d/reactphysics3d.h"
 #include "scene/node.h"
+#include "scene/objects/physical.h"
 
 namespace scene{
     inline const auto& Scene::getPhysicsCommon(){
@@ -13,7 +14,8 @@ namespace scene{
     :
     application_(app),
     rootNode_(std::make_unique<Node>(nullptr, this)),
-    physicsWorld_(getPhysicsCommon()->createPhysicsWorld())
+    physicsWorld_(getPhysicsCommon()->createPhysicsWorld()),
+    objects_(objects::Type::SIZE)
     {}
     
     Scene::~Scene(){
@@ -22,12 +24,10 @@ namespace scene{
     
     void Scene::UpdatePhysics(const float& delta){
         physicsWorld_->update(delta);
-        //    for(auto o : physical_objects){
-        //auto par = o->parent.lock();
-        //auto oldscale = par->GetScale();
-        //o->body->getTransform().getOpenGLMatrix((reactphysics3d::decimal*)&(par->matrix));
-        //par->SetScale(oldscale);
-        //}
+        for(auto o : objects_[objects::Physical]){
+            auto ob = static_cast<objects::TPhysical*>(o);
+            ob->getBody()->getTransform().getOpenGLMatrix((reactphysics3d::decimal*)&(ob->getParent()->getMatrix()));
+        }
     }
     
 }

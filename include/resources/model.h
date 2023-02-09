@@ -15,8 +15,8 @@ struct Vertex {
 
 struct Mesh{
     // RAM representation
-    std::unique_ptr<std::vector<Vertex>> vertices;
-    std::unique_ptr<std::vector<glm::u32>> indices;
+    std::vector<Vertex> vertices;
+    std::vector<glm::u32> indices;
 
     // GPU representation
     glm::u32 vertexArrayObject    = 0;
@@ -28,7 +28,7 @@ struct Mesh{
 
 class Model : public Resource{
     private:
-        std::unique_ptr<std::vector<Mesh>> meshes_;        
+        std::vector<Mesh> meshes_;        
         void loadRAM();
         void loadGPU();
         void unloadGPU();
@@ -40,7 +40,7 @@ class Model : public Resource{
         void setPreloaded();
         void setUnloaded();
 
-        [[nodiscard]] inline const auto& getMeshes() {return *meshes_;}
+        [[nodiscard]] inline const auto& getMeshes() {return meshes_;}
 
         //vector<Mesh>::iterator begin();
         //vector<Mesh>::iterator end();

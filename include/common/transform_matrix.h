@@ -9,7 +9,7 @@
 namespace common{
     
 template <typename T>
-class TransformMatrix :IMovable<T>{
+class TransformMatrix : public IMovable<T>{
     private:
         matr<T> matrix_;
         vect<T> scale_;
@@ -21,7 +21,10 @@ class TransformMatrix :IMovable<T>{
     public:
         TransformMatrix()
         :
-        matrix_(glm::identity<matr<T>>())
+        matrix_(glm::identity<matr<T>>()),
+        scale_(vect<T>(1)),
+        rotation_(1,0,0,0),
+        position_(vect<T>(0))
         {}
         
         [[nodiscard]]       inline vect<T>    getBackward ();
@@ -53,17 +56,18 @@ class TransformMatrix :IMovable<T>{
 
 template <typename T>
 void TransformMatrix<T>::matrixUpdate(){
-    matrix_[0]      = vect4<T>(0);
-    matrix_[1]      = vect4<T>(0);
-    matrix_[2]      = vect4<T>(0);
-    matrix_[0].x    = scale_.x;
-    matrix_[1].y    = scale_.y;
-    matrix_[2].z    = scale_.z;
-    matrix_[3].x    = position_.x;
-    matrix_[3].y    = position_.y;
-    matrix_[3].z    = position_.z;
-    matrix_[3].w    = 1;
-	matrix_         = glm::toMat4(rotation_) * matrix_;
+    matrix_ = glm::translate(glm::mat4(1.0f), position_) * glm::toMat4(rotation_) * glm::scale(glm::mat4(1.0f), scale_);
+    //matrix_[0]      = vect4<T>(0);
+    //matrix_[1]      = vect4<T>(0);
+    //matrix_[2]      = vect4<T>(0);
+    //matrix_[3].x    = position_.x;
+    //matrix_[3].y    = position_.y;
+    //matrix_[3].z    = position_.z;
+    //matrix_[3].w    = 1;
+	//matrix_         = matrix_ * glm::toMat4(rotation_);
+    //matrix_[0].x    = scale_.x;
+    //matrix_[1].y    = scale_.y;
+    //matrix_[2].z    = scale_.z;
 }
 
 template <typename T>
@@ -142,6 +146,7 @@ matr<T>& TransformMatrix<T>::getMatrix(){
 
 template <typename T>
 void TransformMatrix<T>::setPosition      (const vect<T>& pos){
+    position_ = pos;
     matrix_[3].x = pos.x;
     matrix_[3].y = pos.y;
     matrix_[3].z = pos.z;
@@ -149,6 +154,9 @@ void TransformMatrix<T>::setPosition      (const vect<T>& pos){
 
 template <typename T>
 void TransformMatrix<T>::setPosition        (T x, T y, T z){
+    position_.x = x;
+    position_.y = y;
+    position_.z = z;
     matrix_[3].x = x;
     matrix_[3].y = y;
     matrix_[3].z = z;
@@ -178,13 +186,16 @@ void TransformMatrix<T>::setRotation        (T rx, T ry, T rz){
 
 template <typename T>
 void TransformMatrix<T>::move(vect<T> v){
+    position_ += v;
     matrix_[3].x += v.x;
     matrix_[3].y += v.y;
     matrix_[3].z += v.z;
 }
 template <typename T>
 void TransformMatrix<T>::rotate(quater<T> qrot){
-    matrix_ = glm::toMat4(qrot) * matrix_;
+    setRotation(qrot * rotation_);
+    //matrix_ = glm::toMat4(qrot) * matrix_;
+    //matrixUpdate();
 }
 
 template <typename T>

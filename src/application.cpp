@@ -9,16 +9,19 @@
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
-
 #include "reactphysics3d/reactphysics3d.h"
+
 #include "scene/scene.h"
 #include "scene/node.h"
-#include "scene/objects/common.h"
+#include "scene/objects/object.h"
 #include "scene/objects/model.h"
+#include "scene/objects/camera.h"
+#include "scene/objects/physical.h"
 #include "resources/manager.h"
 #include "resources/resource.h"
 #include "resources/shader.h"
 #include "renderer.h"
+
 
 Application::~Application() = default;
 
@@ -37,8 +40,10 @@ Application::Application(){
     glfwSwapInterval(1);    // Enable vsync
     
     // tell GLFW to capture our mouse
-    glfwSetInputMode(window_, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    //glfwSetInputMode(window_, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     glEnable(GL_DEPTH_TEST);    
+    
+    
     
     
     
@@ -46,39 +51,40 @@ Application::Application(){
     resourceManager_ = std::make_unique<resources::Manager>();
     currentScene_    = std::make_unique<scene::Scene>(this);
       
-    auto shader = resourceManager_->addShader("res/shaders");
-    shader->setLoaded();
+    auto resShader = resourceManager_->addShader("res/shaders");
+    resShader->setLoaded();
+    auto resModel = resourceManager_->addModel("res/box.obj");
+    resModel->setLoaded();
+    
     auto& modelnode = currentScene_->getRoot()->createChildNode();
     auto& cameranode = currentScene_->getRoot()->createChildNode();
     auto& lightnode = currentScene_->getRoot()->createChildNode();
-    auto& model = modelnode.create<scene::objects::Model>();
+    auto& model = modelnode.createObject(scene::objects::Model);
+    model.setPosition(0,0,-20);
+   
     
-    //std::cout << modelnode.getObjects<scene::objects::Model>().size();
-    // static_cast<scene::objects::TModel&>(model).;
     for(int i = 0; i<10;i++){
         auto& model2node = currentScene_->getRoot()->createChildNode();
-        model2node.create<scene::objects::Model>();
-        model2node.setPosition(5,-9+(i*2.1),-3);
-        //auto& mod2phys = model2node.createPhysical();
-        //mod2phys.getBody()->addCollider(physicsCommon_->createBoxShape(reactphysics3d::Vector3(1,1,1)) , reactphysics3d::Transform::identity() );
+        model2node.createObject(scene::objects::Model);
+        model2node.setPosition(5-(i*0.2),-9+(i*2.1),-3);
+        auto& mod2phys = model2node.createObject(scene::objects::Physical);
+        static_cast<scene::objects::TPhysical&>(mod2phys).getBody()->addCollider(physicsCommon_->createBoxShape(reactphysics3d::Vector3(1,1,1)) , reactphysics3d::Transform::identity() );
     }
-    //modelnode.createModel("res/backpack/backpack.obj");
-    //lightnode.createLight();
-    //lightnode.createModel("res/icosphere.obj");
+    // static_cast<scene::objects::TModel&>(modelnode.createObject(scene::objects::Model)).setModel(resourceManager_->addModel("res/backpack/backpack.obj"));
+    lightnode.createObject(scene::objects::Light);
+    static_cast<scene::objects::TModel&>(lightnode.createObject(scene::objects::Model)).setModel(resourceManager_->addModel("res/icosphere.obj"));
     lightnode.setPosition(5,5,-3);
-    //cameranode.createCamera(); 
+    cameranode.createObject(scene::objects::Camera); 
     cameranode.setPosition(3,0,10);
     auto& floor = currentScene_->getRoot()->createChildNode();
     floor.setPosition(0,-10,0);
     floor.setScale(100,1,100);
-    //floor.createModel("res/box.obj");
-    //auto& phys_floor = floor.createPhysical();
-    //phys_floor.getBody()->setType(reactphysics3d::BodyType::STATIC);
+    floor.createObject(scene::objects::Model);
+    auto& phys_floor = static_cast<scene::objects::TPhysical&>(floor.createObject(scene::objects::Physical));
+    phys_floor.getBody()->setType(reactphysics3d::BodyType::STATIC);
     reactphysics3d::BoxShape* BoxShape = getPhysicsCommon()->createBoxShape(reactphysics3d::Vector3(100,1,100)); 
-    //phys_floor.getBody()->addCollider(BoxShape , reactphysics3d::Transform::identity() );
+    phys_floor.getBody()->addCollider(BoxShape , reactphysics3d::Transform::identity() );
     
-
-
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO();
     ImGui::StyleColorsDark();
@@ -88,11 +94,11 @@ Application::Application(){
 }   
 
 void Application::mouseMoveEvent(double xpos, double ypos){
-    std::cout << "rr";    
+    //std::cout << "rr";    
 }
 
 void Application::keyPressEvent(int key, int scancode, int action, int mods){
-    std::cout << "rr";    
+    //std::cout << "rr";    
 }
 
 void Application::run(){
@@ -111,7 +117,9 @@ void Application::run(){
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         currentScene_->UpdatePhysics(deltaTime);
+        currentScene_->getObjects(scene::objects::Model).front()->rotate(glm::quat(glm::vec3(1,1,0)*0.01f));
         renderer_->Render(currentScene_);        
+        
         
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
@@ -128,8 +136,11 @@ void Application::run(){
         ImGui::SetNextWindowSize(ImVec2(300,100), ImGuiCond_FirstUseEver);
         ImGui::Begin("info");
         ImGui::Text("FPS: %f",fps);
-        //auto campos = currentScene_->active_camera->parent.lock()->matrix.get_position();
-        //ImGui::Text("Cam pos: X:%f Y:%f Z:%f",campos.x, campos.y, campos.z);
+        auto& campos = currentScene_->getObjects(scene::objects::Camera).front()->getPosition();
+        auto camrot = glm::eulerAngles(currentScene_->getObjects(scene::objects::Camera).front()->getRotation());
+
+        ImGui::Text("Cam pos: X:%f Y:%f Z:%f",campos.x, campos.y, campos.z);
+        ImGui::Text("Cam rot: X:%f Y:%f Z:%f",camrot.x, camrot.y, camrot.z);
         ImGui::End();
 
         ImGui::Render();

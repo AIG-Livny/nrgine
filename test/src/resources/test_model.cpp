@@ -18,7 +18,7 @@ TEST(resources_model, Preload) {
     ASSERT_EQ(m.getLoadState(), common::IResource::LoadState::PreLoaded);
     ASSERT_NE(m.getMeshes().size(),0);
     for(const auto& mesh : m.getMeshes()){
-        ASSERT_NE(mesh.vertices->size(), 0);
+        ASSERT_NE(mesh.vertices.size(), 0);
     }
 }
 
@@ -38,7 +38,7 @@ TEST(resources_model, Resume_from_Loaded_to_preloaded_state) {
     m.setPreloaded();
     ASSERT_NE(m.getMeshes().size(),0);
     for(const auto& mesh : m.getMeshes()){
-        ASSERT_NE(mesh.vertices->size(), 0);
+        ASSERT_NE(mesh.vertices.size(), 0);
         ASSERT_EQ(mesh.vertexArrayObject, 0);
     }
 }
