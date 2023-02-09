@@ -30,6 +30,5 @@ class Application{
 
         void mouseMoveEvent (double xpos, double ypos);
         void keyPressEvent  (int key, int scancode, int action, int mods);
-        void setup          ();
         void run            ();
 };

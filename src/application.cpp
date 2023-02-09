@@ -22,14 +22,14 @@
 #include "resources/shader.h"
 #include "renderer.h"
 
+scene::Node* pcamnode;
 
 Application::~Application() = default;
 
-#include "common/transform_matrix.h"
-#include <glm/gtc/quaternion.hpp> 
-#include <glm/gtx/quaternion.hpp> 
-
-Application::Application(){
+Application::Application():
+physicsCommon_(std::make_unique<reactphysics3d::PhysicsCommon>()),
+resourceManager_(std::make_unique<resources::Manager>())
+{
     // Create window with graphics context
     window_ = glfwCreateWindow(1280, 720, "NAME VER", NULL, NULL);
     if (window_ == NULL){return ;}
@@ -40,16 +40,13 @@ Application::Application(){
     glfwSwapInterval(1);    // Enable vsync
     
     // tell GLFW to capture our mouse
-    //glfwSetInputMode(window_, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    glfwSetInputMode(window_, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     glEnable(GL_DEPTH_TEST);    
     
     
     
-    
-    
-    physicsCommon_   = std::make_unique<reactphysics3d::PhysicsCommon>();
-    resourceManager_ = std::make_unique<resources::Manager>();
     currentScene_    = std::make_unique<scene::Scene>(this);
+    
       
     auto resShader = resourceManager_->addShader("res/shaders");
     resShader->setLoaded();
@@ -66,7 +63,7 @@ Application::Application(){
     for(int i = 0; i<10;i++){
         auto& model2node = currentScene_->getRoot()->createChildNode();
         model2node.createObject(scene::objects::Model);
-        model2node.setPosition(5-(i*0.2),-9+(i*2.1),-3);
+        model2node.setPosition(5-(i*0.2),-9+(i*2.2),-3);
         auto& mod2phys = model2node.createObject(scene::objects::Physical);
         static_cast<scene::objects::TPhysical&>(mod2phys).getBody()->addCollider(physicsCommon_->createBoxShape(reactphysics3d::Vector3(1,1,1)) , reactphysics3d::Transform::identity() );
     }
@@ -76,6 +73,7 @@ Application::Application(){
     lightnode.setPosition(5,5,-3);
     cameranode.createObject(scene::objects::Camera); 
     cameranode.setPosition(3,0,10);
+    pcamnode = &cameranode;
     auto& floor = currentScene_->getRoot()->createChildNode();
     floor.setPosition(0,-10,0);
     floor.setScale(100,1,100);
@@ -94,11 +92,51 @@ Application::Application(){
 }   
 
 void Application::mouseMoveEvent(double xpos, double ypos){
-    //std::cout << "rr";    
+    static glm::vec3 mouse_prev_pos;
+    glm::vec3 mouse_current_pos = glm::vec3(ypos,xpos,0);
+    glm::vec3 mouse_move = mouse_prev_pos - mouse_current_pos;
+    mouse_prev_pos = mouse_current_pos;
+    pcamnode->rotate(glm::quat(mouse_move*0.001f));
 }
 
 void Application::keyPressEvent(int key, int scancode, int action, int mods){
-    //std::cout << "rr";    
+    if(action == GLFW_REPEAT){return;}
+    //std::cout << "key:"<< key <<", scancode:" <<scancode<< ", action:" <<action<< ", mods:"<<mods << "\n";
+    if((key == GLFW_KEY_ESCAPE) && (action == GLFW_PRESS)){
+        glfwSetWindowShouldClose(window_, true);
+    }
+    float cameraSpeed = 2.5 * 0.1;//* deltaTime;
+    if((key == GLFW_KEY_LEFT_SHIFT) && (action == GLFW_PRESS)){
+        cameraSpeed *= 10;
+    }
+    //if(current_scene->active_camera cam == nullptr){
+    //    return;
+    //}
+    if((key == GLFW_KEY_W) && (action == GLFW_PRESS)){
+        pcamnode->move(pcamnode->getForward()*cameraSpeed);
+    }
+    
+    if((key == GLFW_KEY_S) && (action == GLFW_PRESS)){
+        pcamnode->move(pcamnode->getBackward()*cameraSpeed);
+    } 
+    if((key == GLFW_KEY_A) && (action == GLFW_PRESS)){
+        pcamnode->move(pcamnode->getLeft()*cameraSpeed);
+    }
+    if((key == GLFW_KEY_D) && (action == GLFW_PRESS)){
+        pcamnode->move(pcamnode->getRight()*cameraSpeed);
+    }
+    if((key == GLFW_KEY_SPACE) && (action == GLFW_PRESS)){
+        pcamnode->move(pcamnode->getUp()*cameraSpeed);
+    }
+    if((key == GLFW_KEY_LEFT_CONTROL) && (action == GLFW_PRESS)){
+        pcamnode->move(pcamnode->getDown()*cameraSpeed);
+    }
+    if((key == GLFW_KEY_Q) && (action == GLFW_PRESS)){
+        pcamnode->rotate(glm::quat(pcamnode->getRoll() * cameraSpeed));
+    }
+    if((key == GLFW_KEY_E) && (action == GLFW_PRESS)){
+        pcamnode->rotate(glm::quat(pcamnode->getRoll() * -cameraSpeed));
+    }
 }
 
 void Application::run(){
