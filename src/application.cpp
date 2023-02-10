@@ -45,7 +45,7 @@ resourceManager_(std::make_unique<resources::Manager>())
     
     
     
-    currentScene_    = std::make_unique<scene::Scene>(this);
+    currentScene_    = std::make_unique<scene::Scene>(static_cast<IApplication*>(this));
     
       
     auto resShader = resourceManager_->addShader("res/shaders");

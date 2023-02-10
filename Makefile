@@ -10,6 +10,7 @@ LIB_DIRS        += lib/imgui/bin
 LIB_DIRS        += lib/reactphysics3d/bin
 LIB_DIRS        += lib/glfw3/bin
 
+INC_DIRS        += .
 INC_DIRS        += include
 INC_DIRS        += lib/imgui/include
 INC_DIRS        += lib/reactphysics3d/include

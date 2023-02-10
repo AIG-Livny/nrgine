@@ -7,21 +7,22 @@
 
 #include "scene/node.h"
 #include "scene/objects/object.h"
-
-class Application;
+//#include "interfaces/IApplication.h"
+class IApplication;
 
 namespace scene{
 
 class Scene{
     friend Node;
     private:
-        Application* application_;
+        IApplication* application_;
         reactphysics3d::PhysicsWorld* physicsWorld_;
         std::unique_ptr<Node> rootNode_;
         std::vector<std::list<objects::Object*>> objects_;
     
     public:
-        Scene(Application* app);
+        //Scene(Application* app);
+        Scene(IApplication* app);
         ~Scene();
         
         Scene(const Scene&)               = delete;

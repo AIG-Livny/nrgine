@@ -1,6 +1,6 @@
 #include "scene/scene.h"
 
-#include "application.h"
+#include "interfaces/IApplication.h"
 #include "reactphysics3d/reactphysics3d.h"
 #include "scene/node.h"
 #include "scene/objects/physical.h"
@@ -10,7 +10,7 @@ namespace scene{
         return application_->getPhysicsCommon();
     }
     
-    Scene::Scene(Application* app)
+    Scene::Scene(IApplication* app)
     :
     application_(app),
     rootNode_(std::make_unique<Node>(nullptr, this)),
