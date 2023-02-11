@@ -28,19 +28,19 @@ class TModel :
         
         inline void setModel (std::shared_ptr<resources::Model>  model ){resourceModel_  = model; }
         inline void setShader(std::shared_ptr<resources::Shader> shader){resourceShader_ = shader;}
-        [[nodiscard]] inline auto getModel (){return resourceModel_; }
-        [[nodiscard]] inline auto getShader (){return resourceShader_; }
+        [[nodiscard]] inline auto getModel ()   {return resourceModel_; }
+        [[nodiscard]] inline auto getShader ()  {return resourceShader_; }
         
         // Object
-        [[nodiscard]] inline Type   getType(){return Type::Model;}
+        [[nodiscard]] inline Type   getType() override {return Type::Model;}
         
         // IResource
-        void setLoaded();
-        void setPreloaded();
-        void setUnloaded();
+        void setLoaded()    override;
+        void setPreloaded() override;
+        void setUnloaded()  override;
         
-        inline const std::filesystem::path&         getPath();
-        inline const common::IResource::LoadState&  getLoadState();             
+        const std::filesystem::path&         getPath()      override;
+        const common::IResource::LoadState&  getLoadState() override;             
 };
     
 } // END namespace scene::objects

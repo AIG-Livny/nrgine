@@ -17,8 +17,8 @@ class IResource{
         virtual void setPreloaded   () = 0;
         virtual void setUnloaded    () = 0;
 
-        virtual inline const std::filesystem::path& getPath     () = 0;
-        virtual inline const LoadState&             getLoadState() = 0;
+        virtual const std::filesystem::path& getPath     () = 0;
+        virtual const LoadState&             getLoadState() = 0;
 };
 
-} // END namespace common
+} // namespace common

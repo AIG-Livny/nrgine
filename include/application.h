@@ -24,12 +24,12 @@ class Application : IApplication{
         Application(const Application&)               = delete;
         Application& operator=(const Application&)    = delete;
         
-        [[nodiscard]] inline const std::unique_ptr<reactphysics3d::PhysicsCommon>& getPhysicsCommon  (){return physicsCommon_;}
-        [[nodiscard]] inline const std::unique_ptr<resources::Manager>& getResourceManager(){return resourceManager_;}
-        [[nodiscard]] inline const std::unique_ptr<scene::Scene>& getCurrentScene   (){return currentScene_;}
-        [[nodiscard]] inline GLFWwindow* getGLFWWindow     (){return window_;}
+        [[nodiscard]] inline reactphysics3d::PhysicsCommon* getPhysicsCommon  () override {return physicsCommon_.get();}
+        [[nodiscard]] inline resources::Manager*            getResourceManager() override {return resourceManager_.get();}
+        [[nodiscard]] inline scene::Scene*                  getCurrentScene   () override {return currentScene_.get();}
+        [[nodiscard]] inline GLFWwindow*                    getGLFWWindow     () override {return window_;}
 
-        void mouseMoveEvent (double xpos, double ypos);
-        void keyPressEvent  (int key, int scancode, int action, int mods);
-        void run            ();
+        void mouseMoveEvent (double xpos, double ypos)                      override;
+        void keyPressEvent  (int key, int scancode, int action, int mods)   override;
+        void run            ()                                              override;
 };

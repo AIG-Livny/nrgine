@@ -37,7 +37,9 @@ class TCamera:public Object{
 
         [[nodiscard]] inline const glm::mat4& getProjection(void)   {return projection_;}
         [[nodiscard]]        const glm::mat4& getView(void);
-        [[nodiscard]] inline Type getType(){return Type::Camera;}
+        
+        // Object
+        [[nodiscard]] inline Type getType() override {return Type::Camera;}
 };
 
 } // namespace scene::objects

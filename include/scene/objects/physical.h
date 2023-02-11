@@ -18,7 +18,9 @@ class TPhysical : public Object{
         ~TPhysical();
         
         [[nodiscard]] inline auto*  getBody(){ return body_; }
-        [[nodiscard]] inline Type   getType(){return Type::Physical;} 
+        
+        // Object
+        [[nodiscard]] inline Type   getType() override {return Type::Physical;} 
 };
     
 }// namespace scene::objects

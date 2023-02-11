@@ -36,9 +36,10 @@ class Model : public Resource{
     public:
         Model(const std::filesystem::path& path);
 
-        void setLoaded();
-        void setPreloaded();
-        void setUnloaded();
+        // Resource
+        void setLoaded()    override;
+        void setPreloaded() override;
+        void setUnloaded()  override;
 
         [[nodiscard]] inline const auto& getMeshes() {return meshes_;}
 

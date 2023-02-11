@@ -14,7 +14,7 @@ class TLight : public Object{
         Object(parent)
         {};
         
-        [[nodiscard]] inline Type getType(){return Type::Light;}
+        [[nodiscard]] inline Type getType() override {return Type::Light;}
 };
 
 } // namespace scene::objects

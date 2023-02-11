@@ -27,31 +27,30 @@ class TransformMatrix : public IMovable<T>{
         position_(vect<T>(0))
         {}
         
-        [[nodiscard]]       inline vect<T>    getBackward ();
-        [[nodiscard]]       inline vect<T>    getForward  ();
-        [[nodiscard]]       inline vect<T>    getLeft     ();
-        [[nodiscard]]       inline vect<T>    getRight    ();
-        [[nodiscard]]       inline vect<T>    getDown     ();
-        [[nodiscard]]       inline vect<T>    getUp       ();
+        [[nodiscard]]       inline vect<T>    getBackward () override;
+        [[nodiscard]]       inline vect<T>    getForward  () override;
+        [[nodiscard]]       inline vect<T>    getLeft     () override;
+        [[nodiscard]]       inline vect<T>    getRight    () override;
+        [[nodiscard]]       inline vect<T>    getDown     () override;
+        [[nodiscard]]       inline vect<T>    getUp       () override;
         
-        [[nodiscard]]       inline vect<T>    getPitch    ();
-        [[nodiscard]]       inline vect<T>    getYaw      ();
-        [[nodiscard]]       inline vect<T>    getRoll     ();
-        [[nodiscard]] const inline vect<T>&   getScale    ();
-        [[nodiscard]] const inline quater<T>& getRotation ();
-        [[nodiscard]] const inline vect<T>&   getPosition ();
-        [[nodiscard]]       inline matr<T>&   getMatrix   ();
+        [[nodiscard]]       inline vect<T>    getPitch    () override;
+        [[nodiscard]]       inline vect<T>    getYaw      () override;
+        [[nodiscard]]       inline vect<T>    getRoll     () override;
+        [[nodiscard]] const inline vect<T>&   getScale    () override;
+        [[nodiscard]] const inline quater<T>& getRotation () override;
+        [[nodiscard]] const inline vect<T>&   getPosition () override;
+        [[nodiscard]]       inline matr<T>&   getMatrix   () override;
 
-        inline void setPosition (const vect<T>& pos);
-        inline void setPosition (T x, T y, T z);
-        inline void setScale    (const vect<T>& scale);
-        inline void setScale    (T x, T y, T z);
-        inline void setRotation (const quater<T>& qrot);
-        inline void setRotation (T rx, T ry, T rz);
-
-        inline void move        (vect<T> v);
-        inline void rotate      (quater<T> qrot);
-        inline void scale       (vect<T> v);
+        inline void setPosition (const vect<T>& pos)    override;
+        inline void setPosition (T x, T y, T z)         override;
+        inline void setScale    (const vect<T>& scale)  override;
+        inline void setScale    (T x, T y, T z)         override;
+        inline void setRotation (const quater<T>& qrot) override;
+        inline void setRotation (T rx, T ry, T rz)      override;
+        inline void move        (vect<T> v)             override;
+        inline void rotate      (quater<T> qrot)        override;
+        inline void scale       (vect<T> v)             override;
 };
 
 template <typename T>
