@@ -35,7 +35,7 @@
             }
         },
         {
-            "label": "cleanall.withsubprojects",
+            "label": "cleanall-withsubprojects",
             "type": "shell",
             "command": "make -j cleanall.withsubprojects",
             "presentation": {
@@ -43,7 +43,7 @@
             }
         },
         {
-            "label": "runtest",
+            "label": "test",
             "type": "shell",
             "command": "make -j test",
             "presentation": {

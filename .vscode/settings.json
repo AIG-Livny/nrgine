@@ -81,33 +81,37 @@
         "any": "cpp",
         "filesystem": "cpp"
     },
-    "VsCodeTaskButtons.tasks": [
+    //Icons: https://microsoft.github.io/vscode-codicons/dist/codicon.html
+    "activitusbar.views": [
         {
-            "label": "Build",
-            "task": "build",
+            "name": "task.build",
+            "codicon": "tools",
+            "tooltip": "Build project"
         },
         {
-            "label": "Run",
-            "task": "run",
+            "name": "task.run",
+            "codicon": "debug-start",
+            "tooltip": "Run"
         },
         {
-            "label": "Test",
-            "task": "runtest",
+            "name": "task.test",
+            "codicon": "beaker",
+            "tooltip": "Test"
         },
         {
-            "label": "Clean objects",
-            "task": "clean",
-            "tooltip":"Just objects"
+            "name": "task.clean",
+            "codicon": "trash",
+            "tooltip": "Clean only obj"
         },
-        {
-            "label": "Clean project",
-            "task": "cleanall",
-            "tooltip":"Only top-level project"
-        },
-        {
-            "label": "Clean all with subprojects",
-            "task": "cleanall.withsubprojects",
-            "tooltip":"Include subprojects"
-        },
+        //{
+        //    "name": "task.cleanall",
+        //    "codicon": "tools",
+        //    "tooltip": "Clean all top-level"
+        //},
+        //{
+        //    "name": "task.cleanall-withsubprojects",
+        //    "codicon": "tools",
+        //    "tooltip": "Clean all with subprojects"
+        //},
     ]
 }
