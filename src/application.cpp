@@ -26,10 +26,7 @@ scene::Node* pcamnode;
 
 Application::~Application() = default;
 
-Application::Application():
-physicsCommon_(std::make_unique<reactphysics3d::PhysicsCommon>()),
-resourceManager_(std::make_unique<resources::Manager>())
-{
+Application::Application(){
     // Create window with graphics context
     window_ = glfwCreateWindow(1280, 720, "NAME VER", NULL, NULL);
     if (window_ == NULL){return ;}
@@ -44,8 +41,10 @@ resourceManager_(std::make_unique<resources::Manager>())
     glEnable(GL_DEPTH_TEST);    
     
     
-    
+    physicsCommon_   = std::make_unique<reactphysics3d::PhysicsCommon>();
+    resourceManager_ = std::make_unique<resources::Manager>();
     currentScene_    = std::make_unique<scene::Scene>(static_cast<IApplication*>(this));
+    
     
       
     auto resShader = resourceManager_->addShader("res/shaders");

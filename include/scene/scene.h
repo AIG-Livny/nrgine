@@ -5,37 +5,38 @@
 
 #include "reactphysics3d/reactphysics3d.h"
 
+#include "interfaces/IApplication.h"
 #include "scene/node.h"
 #include "scene/objects/object.h"
-//#include "interfaces/IApplication.h"
-class IApplication;
 
 namespace scene{
 
 class Scene{
+    
     friend Node;
+    
     private:
-        IApplication* application_;
-        reactphysics3d::PhysicsWorld* physicsWorld_;
-        std::unique_ptr<Node> rootNode_;
-        std::vector<std::list<objects::Object*>> objects_;
+        IApplication*                               application_;
+        reactphysics3d::PhysicsWorld*               physicsWorld_;
+        std::unique_ptr<Node>                       rootNode_;
+        std::vector<std::list<objects::Object*>>    objects_;
     
     public:
-        //Scene(Application* app);
         Scene(IApplication* app);
         ~Scene();
         
+        // Deny copy
         Scene(const Scene&)               = delete;
         Scene& operator=(const Scene&)    = delete;
                 
-        [[nodiscard]] inline const auto& getRoot(){return rootNode_;}
-        [[nodiscard]] inline const auto& getPhysicsCommon();
-        [[nodiscard]] inline       auto* getPhysicsWorld(){ return physicsWorld_; }
-        [[nodiscard]] inline       auto* getApplication(){ return application_; }
-        [[nodiscard]] inline       auto& getObjects(objects::Type t){ return objects_[t]; }
+        [[nodiscard]] inline reactphysics3d::PhysicsCommon* getPhysicsCommon   (){return getApplication()->getPhysicsCommon();}
+        [[nodiscard]] inline reactphysics3d::PhysicsWorld*  getPhysicsWorld    (){return physicsWorld_;}
+        [[nodiscard]] inline Node*                          getRoot            (){return rootNode_.get();}
+        [[nodiscard]] inline IApplication*                  getApplication     (){return application_;}
+        [[nodiscard]] inline std::list<objects::Object*>&   getObjects(objects::Type t){return objects_[t];}
         
         
         void UpdatePhysics(const float& delta);
 };
 
-} // END namespace scene
+} // namespace scene

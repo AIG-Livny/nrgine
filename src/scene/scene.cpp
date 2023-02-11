@@ -5,11 +5,7 @@
 #include "scene/node.h"
 #include "scene/objects/physical.h"
 
-namespace scene{
-    inline const auto& Scene::getPhysicsCommon(){
-        return application_->getPhysicsCommon();
-    }
-    
+namespace scene{    
     Scene::Scene(IApplication* app)
     :
     application_(app),
