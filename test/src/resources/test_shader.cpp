@@ -1,12 +1,33 @@
 #include <gtest/gtest.h>
 
+#include <GL/glew.h>
+#include <GLFW/glfw3.h> 
+
 #include "resources/shader.h"
 
-TEST(resources_shader, Not_load_missing_path){
+class TestShader : public testing::Test{
+    public:
+        inline static GLFWwindow* window;
+        
+        static void SetUpTestSuite() {
+            glfwInit();
+            window = glfwCreateWindow(10, 10, "TEST", NULL, NULL);
+            glfwMakeContextCurrent(window);
+            glewExperimental = GL_TRUE;
+            glewInit();    
+        }
+    
+        static void TearDownTestSuite() {
+            glfwDestroyWindow(window);
+            glfwTerminate();
+        }
+};
+
+TEST_F(TestShader, Not_load_missing_path){
     ASSERT_ANY_THROW(resources::Shader s("MISSING"));
 }
 
-TEST(resources_shader, Preload){
+TEST_F(TestShader, Preload){
     ASSERT_NO_THROW(resources::Shader e("test/res/shader"));
     resources::Shader s("test/res/shader");
     ASSERT_EQ(s.getLoadState(), common::IResource::LoadState::NotLoaded);
@@ -15,7 +36,7 @@ TEST(resources_shader, Preload){
     ASSERT_EQ(s.getLoadState(), common::IResource::LoadState::PreLoaded);
 }
 
-TEST(resources_shader, Load){
+TEST_F(TestShader, Load){
     ASSERT_NO_THROW(resources::Shader e("test/res/shader"));
     resources::Shader s("test/res/shader");
     ASSERT_EQ(s.getLoadState(), common::IResource::LoadState::NotLoaded);
@@ -27,7 +48,7 @@ TEST(resources_shader, Load){
     ASSERT_EQ(s.getLoadState(), common::IResource::LoadState::Loaded);
 }
 
-TEST(resources_shader, Unload){
+TEST_F(TestShader, Unload){
     resources::Shader s("test/res/shader");
     ASSERT_EQ(s.getLoadState(), common::IResource::LoadState::NotLoaded);
     ASSERT_EQ(s.getHandler(), 0);
@@ -42,7 +63,7 @@ TEST(resources_shader, Unload){
     ASSERT_EQ(s.getLoadState(), common::IResource::LoadState::NotLoaded);
 }
 
-TEST(resources_shader, Load_from_preloaded){
+TEST_F(TestShader, Load_from_preloaded){
     resources::Shader s("test/res/shader");
     s.setPreloaded();
     s.setLoaded();
@@ -51,7 +72,7 @@ TEST(resources_shader, Load_from_preloaded){
     ASSERT_EQ(s.getLoadState(), common::IResource::LoadState::Loaded);
 }
 
-TEST(resources_shader, Unload_from_preloaded){
+TEST_F(TestShader, Unload_from_preloaded){
     resources::Shader s("test/res/shader");
     s.setPreloaded();
     s.setUnloaded();

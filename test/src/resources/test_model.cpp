@@ -1,16 +1,38 @@
 #include <gtest/gtest.h>
 
+#include <GL/glew.h>
+#include <GLFW/glfw3.h> 
+
 #include "resources/model.h"
 
-TEST(resources_model, Not_load_empty_or_missing_path){
+
+class TestModel : public testing::Test{
+    public:
+        inline static GLFWwindow* window;
+        
+        static void SetUpTestSuite() {
+            glfwInit();
+            window = glfwCreateWindow(10, 10, "TEST", NULL, NULL);
+            glfwMakeContextCurrent(window);
+            glewExperimental = GL_TRUE;
+            glewInit();    
+        }
+    
+        static void TearDownTestSuite() {
+            glfwDestroyWindow(window);
+            glfwTerminate();
+        }
+};
+
+TEST_F(TestModel, Not_load_empty_or_missing_path){
     ASSERT_ANY_THROW(resources::Model a(""));
 }
 
-TEST(resources_model, Not_load_bad_model){
+TEST_F(TestModel, Not_load_bad_model){
     ASSERT_ANY_THROW(resources::Model a("test/res/tex.png"));
 }
 
-TEST(resources_model, Preload) {
+TEST_F(TestModel, Preload) {
     ASSERT_NO_THROW(resources::Model a("test/res/box.obj"));
     resources::Model m("test/res/box.obj");
     ASSERT_EQ(m.getLoadState(), common::IResource::LoadState::NotLoaded);
@@ -22,7 +44,7 @@ TEST(resources_model, Preload) {
     }
 }
 
-TEST(resources_model, Load) {
+TEST_F(TestModel, Load) {
     resources::Model m("test/res/box.obj");
     m.setLoaded();
     ASSERT_EQ(m.getLoadState(), common::IResource::LoadState::Loaded);
@@ -32,7 +54,7 @@ TEST(resources_model, Load) {
     }
 }
 
-TEST(resources_model, Resume_from_Loaded_to_preloaded_state) {
+TEST_F(TestModel, Resume_from_Loaded_to_preloaded_state) {
     resources::Model m("test/res/box.obj");
     m.setLoaded();
     m.setPreloaded();
@@ -43,7 +65,7 @@ TEST(resources_model, Resume_from_Loaded_to_preloaded_state) {
     }
 }
 
-TEST(resources_model, Unload) {
+TEST_F(TestModel, Unload) {
     resources::Model m("test/res/box.obj");
     m.setLoaded();
     ASSERT_EQ(m.getLoadState(), common::IResource::LoadState::Loaded);
