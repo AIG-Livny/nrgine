@@ -6,7 +6,6 @@ AlignAfterOpenBracket: BlockIndent
 AlignConsecutiveAssignments: Consecutive
 AlignConsecutiveDeclarations: true
 AlignEscapedNewlines : true
-AlignOperands: true
 AllowAllArgumentsOnNextLine: true
 AllowAllParametersOfDeclarationOnNextLine: true
 
