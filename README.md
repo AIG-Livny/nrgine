@@ -34,6 +34,6 @@ NRgine is my 3d engine for training C++ skills. Also it provides access for any 
 - ### Build & Run
     Open terminal and run next command:
     ```
-    make
-    make run
+    make release
     ```
+    And run executable from directory ./release
