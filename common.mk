@@ -90,6 +90,7 @@ clean:
 
 cleanall: clean
 	@rm -rf ./$(OUT_FILE)
+	@rm -rf ./release
 	@rm -rf ./$(dir $(OUT_FILE))
 	@rm -rf ./$(TESTS_DIR)/bin
 
