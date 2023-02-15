@@ -1,0 +1,27 @@
+# Docker GCC based on debian and doesn't have newest libglew
+#FROM gcc:12.2.0
+#RUN apt-get update -qq && \
+#    apt-get install -y \
+#    libglew-dev \
+#    libstb-dev \
+#    libgmock-dev \
+#    libglm-dev \
+#    libassimp-dev \
+#    libglfw3-dev
+
+
+FROM ubuntu:22.04
+
+RUN apt update -qq && \
+    apt install -y \
+    make \
+    g++ \
+    libglew-dev \
+    libstb-dev \
+    libgmock-dev \
+    libglm-dev \
+    libassimp-dev \
+    libglfw3-dev
+
+
+WORKDIR /app/

@@ -16,10 +16,23 @@ INC_DIRS        += lib/imgui/include
 INC_DIRS        += lib/reactphysics3d/include
 INC_DIRS        += lib/glfw3/include
 
+# TODO cross compiling
+# now it just looking for win / not win  
+ifeq ($(OS),Windows_NT)
+# Mingw libs
 LIBS            += GLEW32
 LIBS            += GLU32
 LIBS            += opengl32
 LIBS            += glfw3
+else
+# Unix libs
+LIBS            += GLEW
+LIBS            += GLU
+LIBS            += GL
+LIBS            += glfw
+LIBS            += dl
+endif
+
 LIBS            += pthread
 LIBS            += assimp
 LIBS            += reactphysics3d

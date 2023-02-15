@@ -30,6 +30,12 @@ NRgine is my 3d engine for training C++ skills. Also it provides access for any 
     mingw-w64-x86_64-toolchain
     ```
     Ensure that environment path "C:\msys64\mingw64\bin\" before "C:\msys64\usr\bin\".
+    
+    ### Docker:
+    This command will build executable for unix. Can be started via windows.
+    ```
+    docker compose up gcc --build
+    ```
 
 - ### Build & Run
     Open terminal and run next command:

@@ -1,0 +1,13 @@
+version: "3"
+services:
+  gcc:
+    build:
+      dockerfile: Dockerfile.gcc
+    volumes:
+      - ./:/app
+    command:
+      - /bin/sh
+      - -c
+      - |
+        make -j
+        make release
