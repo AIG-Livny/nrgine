@@ -29,7 +29,7 @@
         {
             "label": "cleanall",
             "type": "shell",
-            "command": "make -j cleanall",
+            "command": "git clean -d -f -x",
             "presentation": {
                 "clear": true
             }
