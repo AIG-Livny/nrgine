@@ -4,5 +4,5 @@
 
 class Renderer{
     public:
-        void Render(const std::unique_ptr<scene::Scene>& scene);
+        void Render(scene::Scene* scene);
 };

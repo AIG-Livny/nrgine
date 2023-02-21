@@ -5,18 +5,18 @@
 namespace scene::objects{
 
 // IMovable
-      glm::vec3  Object::getBackward  ()                             {return getParent()->getBackward();}
-      glm::vec3  Object::getForward   ()                             {return getParent()->getForward ();}
-      glm::vec3  Object::getLeft      ()                             {return getParent()->getLeft    ();}
-      glm::vec3  Object::getRight     ()                             {return getParent()->getRight   ();}
-      glm::vec3  Object::getDown      ()                             {return getParent()->getDown    ();}
-      glm::vec3  Object::getUp        ()                             {return getParent()->getUp      ();}
-      glm::vec3  Object::getPitch     ()                             {return getParent()->getPitch   ();}
-      glm::vec3  Object::getYaw       ()                             {return getParent()->getPitch   ();}
-      glm::vec3  Object::getRoll      ()                             {return getParent()->getRoll    ();}
-const glm::vec3& Object::getScale     ()                             {return getParent()->getScale();}
-const glm::quat& Object::getRotation  ()                             {return getParent()->getRotation();}
-const glm::vec3& Object::getPosition  ()                             {return getParent()->getPosition();}
+      glm::vec3  Object::getBackward  ()                   const     {return getParent()->getBackward();}
+      glm::vec3  Object::getForward   ()                   const     {return getParent()->getForward ();}
+      glm::vec3  Object::getLeft      ()                   const     {return getParent()->getLeft    ();}
+      glm::vec3  Object::getRight     ()                   const     {return getParent()->getRight   ();}
+      glm::vec3  Object::getDown      ()                   const     {return getParent()->getDown    ();}
+      glm::vec3  Object::getUp        ()                   const     {return getParent()->getUp      ();}
+      glm::vec3  Object::getPitch     ()                   const     {return getParent()->getPitch   ();}
+      glm::vec3  Object::getYaw       ()                   const     {return getParent()->getPitch   ();}
+      glm::vec3  Object::getRoll      ()                   const     {return getParent()->getRoll    ();}
+const glm::vec3& Object::getScale     ()                   const     {return getParent()->getScale();}
+const glm::quat& Object::getRotation  ()                   const     {return getParent()->getRotation();}
+const glm::vec3& Object::getPosition  ()                   const     {return getParent()->getPosition();}
       glm::mat4& Object::getMatrix    ()                             {return getParent()->getMatrix();}
       void       Object::setPosition  (const glm::vec3& pos)         {getParent()->setPosition(pos);}
       void       Object::setPosition  (float x, float y, float z)    {getParent()->setPosition(x,y,z);}

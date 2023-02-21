@@ -28,33 +28,33 @@ class Node : public common::IMovable<float> {
         Node& operator=(const Node&) = delete;
 
         // IMovable
-        [[nodiscard]] inline       glm::vec3    getBackward ()                             override {return matrix_.getBackward();}
-        [[nodiscard]] inline       glm::vec3    getForward  ()                             override {return matrix_.getForward ();}
-        [[nodiscard]] inline       glm::vec3    getLeft     ()                             override {return matrix_.getLeft    ();}
-        [[nodiscard]] inline       glm::vec3    getRight    ()                             override {return matrix_.getRight   ();}
-        [[nodiscard]] inline       glm::vec3    getDown     ()                             override {return matrix_.getDown    ();}
-        [[nodiscard]] inline       glm::vec3    getUp       ()                             override {return matrix_.getUp      ();}
-        [[nodiscard]] inline       glm::vec3    getPitch    ()                             override {return matrix_.getPitch   ();}
-        [[nodiscard]] inline       glm::vec3    getYaw      ()                             override {return matrix_.getPitch   ();}
-        [[nodiscard]] inline       glm::vec3    getRoll     ()                             override {return matrix_.getRoll    ();}
-        [[nodiscard]] inline const glm::vec3&   getScale    ()                             override {return matrix_.getScale();}
-        [[nodiscard]] inline const glm::quat&   getRotation ()                             override {return matrix_.getRotation();}
-        [[nodiscard]] inline const glm::vec3&   getPosition ()                             override {return matrix_.getPosition();}
-        [[nodiscard]] inline       glm::mat4&   getMatrix   ()                             override {return matrix_.getMatrix();}
-                      inline       void         setPosition (const glm::vec3& pos)         override {matrix_.setPosition(pos);}
-                      inline       void         setPosition (float x, float y, float z)    override {matrix_.setPosition(x,y,z);}
-                      inline       void         setScale    (const glm::vec3& scale)       override {matrix_.setScale(scale);}
-                      inline       void         setScale    (float x, float y, float z)    override {matrix_.setScale(x,y,z);}
-                      inline       void         setRotation (const glm::quat& qrot)        override {matrix_.setRotation(qrot);}
-                      inline       void         setRotation (float rx, float ry, float rz) override {matrix_.setRotation(rx,ry,rz);}
-                      inline       void         move        (glm::vec3 v)                  override {matrix_.move(v);}
-                      inline       void         rotate      (glm::quat qrot)               override {matrix_.rotate(qrot);}    
-                      inline       void         scale       (glm::vec3 v)                  override {matrix_.scale(v);}
+        [[nodiscard]]       glm::vec3    getBackward ()                            const override {return matrix_.getBackward();}
+        [[nodiscard]]       glm::vec3    getForward  ()                            const override {return matrix_.getForward ();}
+        [[nodiscard]]       glm::vec3    getLeft     ()                            const override {return matrix_.getLeft    ();}
+        [[nodiscard]]       glm::vec3    getRight    ()                            const override {return matrix_.getRight   ();}
+        [[nodiscard]]       glm::vec3    getDown     ()                            const override {return matrix_.getDown    ();}
+        [[nodiscard]]       glm::vec3    getUp       ()                            const override {return matrix_.getUp      ();}
+        [[nodiscard]]       glm::vec3    getPitch    ()                            const override {return matrix_.getPitch   ();}
+        [[nodiscard]]       glm::vec3    getYaw      ()                            const override {return matrix_.getPitch   ();}
+        [[nodiscard]]       glm::vec3    getRoll     ()                            const override {return matrix_.getRoll    ();}
+        [[nodiscard]] const glm::vec3&   getScale    ()                            const override {return matrix_.getScale();}
+        [[nodiscard]] const glm::quat&   getRotation ()                            const override {return matrix_.getRotation();}
+        [[nodiscard]] const glm::vec3&   getPosition ()                            const override {return matrix_.getPosition();}
+        [[nodiscard]]       glm::mat4&   getMatrix   ()                                  override {return matrix_.getMatrix();}
+                            void         setPosition (const glm::vec3& pos)              override {matrix_.setPosition(pos);}
+                            void         setPosition (float x, float y, float z)         override {matrix_.setPosition(x,y,z);}
+                            void         setScale    (const glm::vec3& scale)            override {matrix_.setScale(scale);}
+                            void         setScale    (float x, float y, float z)         override {matrix_.setScale(x,y,z);}
+                            void         setRotation (const glm::quat& qrot)             override {matrix_.setRotation(qrot);}
+                            void         setRotation (float rx, float ry, float rz)      override {matrix_.setRotation(rx,ry,rz);}
+                            void         move        (glm::vec3 v)                       override {matrix_.move(v);}
+                            void         rotate      (glm::quat qrot)                    override {matrix_.rotate(qrot);}    
+                            void         scale       (glm::vec3 v)                       override {matrix_.scale(v);}
         // END IMovable              
         
-        [[nodiscard]] inline const auto& getChilds()   { return childs_; }
-        [[nodiscard]] inline       auto* getParent()   { return parent_; }
-        [[nodiscard]] inline       auto* getScene()    { return scene_; }
+        [[nodiscard]] const auto& getChilds()   { return childs_; }
+        [[nodiscard]]       auto* getParent()   { return parent_; }
+        [[nodiscard]]       auto* getScene()    { return scene_; }
 
         Node&           createChildNode();
  

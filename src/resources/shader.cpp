@@ -8,7 +8,12 @@
 
 namespace resources{
 
-Shader::Shader(const std::filesystem::path& path) : Resource(path){
+Shader::Shader(const std::filesystem::path& path):
+Resource(path),
+vertexShader_(std::make_unique<std::string>()),
+geometryShader_(std::make_unique<std::string>()),
+fragmentShader_(std::make_unique<std::string>())
+{
     if(std::filesystem::exists(path) != true){
         throw std::runtime_error("SHADER::Missing file");
     }

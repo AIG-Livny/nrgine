@@ -9,9 +9,9 @@ namespace resources{
 class Shader : public Resource{
     private:
         glm::u32     handlerGPU_ = 0;
-        std::unique_ptr<std::string>  vertexShader_      = std::make_unique<std::string>("");
-        std::unique_ptr<std::string>  geometryShader_    = std::make_unique<std::string>("");
-        std::unique_ptr<std::string>  fragmentShader_    = std::make_unique<std::string>("");
+        std::unique_ptr<std::string>  vertexShader_;
+        std::unique_ptr<std::string>  geometryShader_;
+        std::unique_ptr<std::string>  fragmentShader_;
         
         void loadToRAM();
         void loadToGPU();
@@ -19,10 +19,10 @@ class Shader : public Resource{
     public:
         Shader(const std::filesystem::path& path);
         
-        [[nodiscard]] inline const auto& getVertexShader()     {return *vertexShader_;}
-        [[nodiscard]] inline const auto& getFragmentShader()   {return *fragmentShader_;}
-        [[nodiscard]] inline const auto& getGeometryShader()   {return *geometryShader_;}
-        [[nodiscard]] inline const auto& getHandler()          {return handlerGPU_;}
+        [[nodiscard]] const std::string* getVertexShader()    const {return vertexShader_.get();}
+        [[nodiscard]] const std::string* getFragmentShader()  const {return fragmentShader_.get();}
+        [[nodiscard]] const std::string* getGeometryShader()  const {return geometryShader_.get();}
+        [[nodiscard]]       glm::u32     getHandler()         const {return handlerGPU_;}
         
         void setLoaded();
         void setPreloaded();

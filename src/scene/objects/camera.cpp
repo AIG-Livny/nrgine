@@ -8,7 +8,7 @@ FACTORY_CLASS_REGISTER(scene::objects::TFactory, scene::objects::TCamera, scene:
 
 namespace scene::objects{
         
-const glm::mat4& TCamera::getView(void){
+const glm::mat4& TCamera::getView(void) {
     view_ = glm::lookAt(
         getParent()->getPosition(),
         getParent()->getPosition() + getParent()->getForward(),

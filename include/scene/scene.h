@@ -29,14 +29,14 @@ class Scene{
         Scene(const Scene&)               = delete;
         Scene& operator=(const Scene&)    = delete;
                 
-        [[nodiscard]] inline reactphysics3d::PhysicsCommon* getPhysicsCommon   (){return getApplication()->getPhysicsCommon();}
-        [[nodiscard]] inline reactphysics3d::PhysicsWorld*  getPhysicsWorld    (){return physicsWorld_;}
-        [[nodiscard]] inline Node*                          getRoot            (){return rootNode_.get();}
-        [[nodiscard]] inline IApplication*                  getApplication     (){return application_;}
-        [[nodiscard]] inline std::list<objects::Object*>&   getObjects(objects::Type t){return objects_[t];}
+        [[nodiscard]] reactphysics3d::PhysicsCommon* getPhysicsCommon ()         const {return getApplication()->getPhysicsCommon();}
+        [[nodiscard]] reactphysics3d::PhysicsWorld*  getPhysicsWorld  ()         const {return physicsWorld_;}
+        [[nodiscard]] Node*                          getRoot          ()         const {return rootNode_.get();}
+        [[nodiscard]] IApplication*                  getApplication   ()         const {return application_;}
+        [[nodiscard]] std::list<objects::Object*>&   getObjects(objects::Type t)       {return objects_[t];}
         
         
-        void UpdatePhysics(const float& delta);
+        void updatePhysics(float delta);
 };
 
 } // namespace scene

@@ -8,7 +8,7 @@
 #include "scene/objects/camera.h"
 #include "resources/shader.h"
 
-void Renderer::Render(const std::unique_ptr<scene::Scene>& scene) {
+void Renderer::Render(scene::Scene* scene) {
     for(auto* o : scene->getObjects(scene::objects::Model)){
         auto* mod = static_cast<scene::objects::TModel*>(o);
         auto* cam = static_cast<scene::objects::TCamera*>(scene->getObjects(scene::objects::Camera).front());

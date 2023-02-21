@@ -153,9 +153,9 @@ void Application::run(){
         glClearColor(0.45f,  0.55f, 0.60f,1.00f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        currentScene_->UpdatePhysics(deltaTime);
+        currentScene_->updatePhysics(deltaTime);
         currentScene_->getObjects(scene::objects::Model).front()->rotate(glm::quat(glm::vec3(1,1,0)*0.01f));
-        renderer_->Render(currentScene_);        
+        renderer_->Render(currentScene_.get());        
         
         
         ImGui_ImplOpenGL3_NewFrame();

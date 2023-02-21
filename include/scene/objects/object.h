@@ -32,32 +32,32 @@ class Object :  public common::IMovable<float>{
         Object(const Object&)             = delete;
         Object& operator=(const Object&)  = delete;
 
-        [[nodiscard]] inline Node* getParent()  {return parent_;} 
-        virtual Type getType() = 0;
+        [[nodiscard]] Node* getParent() const {return parent_;} 
+        virtual Type getType() const = 0;
         
         // IMovable
-        [[nodiscard]]       glm::vec3    getBackward  ()                             ;
-        [[nodiscard]]       glm::vec3    getForward   ()                             ;
-        [[nodiscard]]       glm::vec3    getLeft      ()                             ;
-        [[nodiscard]]       glm::vec3    getRight     ()                             ;
-        [[nodiscard]]       glm::vec3    getDown      ()                             ;
-        [[nodiscard]]       glm::vec3    getUp        ()                             ;
-        [[nodiscard]]       glm::vec3    getPitch     ()                             ;
-        [[nodiscard]]       glm::vec3    getYaw       ()                             ;
-        [[nodiscard]]       glm::vec3    getRoll      ()                             ;
-        [[nodiscard]] const glm::vec3&   getScale     ()                             ;
-        [[nodiscard]] const glm::quat&   getRotation  ()                             ;
-        [[nodiscard]] const glm::vec3&   getPosition  ()                             ;
-        [[nodiscard]]       glm::mat4&   getMatrix    ()                             ;
-                            void         setPosition  (const glm::vec3& pos)         ;
-                            void         setPosition  (float x, float y, float z)    ;
-                            void         setScale     (const glm::vec3& scale)       ;
-                            void         setScale     (float x, float y, float z)    ;
-                            void         setRotation  (const glm::quat& qrot)        ;
-                            void         setRotation  (float rx, float ry, float rz) ;
-                            void         move         (glm::vec3 v)                  ;
-                            void         rotate       (glm::quat qrot)               ;
-                            void         scale        (glm::vec3 v)                  ;
+        [[nodiscard]]       glm::vec3    getBackward  () const                       override;
+        [[nodiscard]]       glm::vec3    getForward   () const                       override;
+        [[nodiscard]]       glm::vec3    getLeft      () const                       override;
+        [[nodiscard]]       glm::vec3    getRight     () const                       override;
+        [[nodiscard]]       glm::vec3    getDown      () const                       override;
+        [[nodiscard]]       glm::vec3    getUp        () const                       override;
+        [[nodiscard]]       glm::vec3    getPitch     () const                       override;
+        [[nodiscard]]       glm::vec3    getYaw       () const                       override;
+        [[nodiscard]]       glm::vec3    getRoll      () const                       override;
+        [[nodiscard]] const glm::vec3&   getScale     () const                       override;
+        [[nodiscard]] const glm::quat&   getRotation  () const                       override;
+        [[nodiscard]] const glm::vec3&   getPosition  () const                       override;
+        [[nodiscard]]       glm::mat4&   getMatrix    ()                             override;
+                            void         setPosition  (const glm::vec3& pos)         override;
+                            void         setPosition  (float x, float y, float z)    override;
+                            void         setScale     (const glm::vec3& scale)       override;
+                            void         setScale     (float x, float y, float z)    override;
+                            void         setRotation  (const glm::quat& qrot)        override;
+                            void         setRotation  (float rx, float ry, float rz) override;
+                            void         move         (glm::vec3 v)                  override;
+                            void         rotate       (glm::quat qrot)               override;
+                            void         scale        (glm::vec3 v)                  override;
 };
 
 using TFactory = common::Factory<Object, Node*>;

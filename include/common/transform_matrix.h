@@ -27,30 +27,30 @@ class TransformMatrix : public IMovable<T>{
         position_(vect<T>(0))
         {}
         
-        [[nodiscard]]       inline vect<T>    getBackward () override;
-        [[nodiscard]]       inline vect<T>    getForward  () override;
-        [[nodiscard]]       inline vect<T>    getLeft     () override;
-        [[nodiscard]]       inline vect<T>    getRight    () override;
-        [[nodiscard]]       inline vect<T>    getDown     () override;
-        [[nodiscard]]       inline vect<T>    getUp       () override;
+        [[nodiscard]]       vect<T>    getBackward () const override;
+        [[nodiscard]]       vect<T>    getForward  () const override;
+        [[nodiscard]]       vect<T>    getLeft     () const override;
+        [[nodiscard]]       vect<T>    getRight    () const override;
+        [[nodiscard]]       vect<T>    getDown     () const override;
+        [[nodiscard]]       vect<T>    getUp       () const override;
         
-        [[nodiscard]]       inline vect<T>    getPitch    () override;
-        [[nodiscard]]       inline vect<T>    getYaw      () override;
-        [[nodiscard]]       inline vect<T>    getRoll     () override;
-        [[nodiscard]] const inline vect<T>&   getScale    () override;
-        [[nodiscard]] const inline quater<T>& getRotation () override;
-        [[nodiscard]] const inline vect<T>&   getPosition () override;
-        [[nodiscard]]       inline matr<T>&   getMatrix   () override;
+        [[nodiscard]]       vect<T>    getPitch    () const override;
+        [[nodiscard]]       vect<T>    getYaw      () const override;
+        [[nodiscard]]       vect<T>    getRoll     () const override;
+        [[nodiscard]] const vect<T>&   getScale    () const override;
+        [[nodiscard]] const quater<T>& getRotation () const override;
+        [[nodiscard]] const vect<T>&   getPosition () const override;
+        [[nodiscard]]       matr<T>&   getMatrix   () override;
 
-        inline void setPosition (const vect<T>& pos)    override;
-        inline void setPosition (T x, T y, T z)         override;
-        inline void setScale    (const vect<T>& scale)  override;
-        inline void setScale    (T x, T y, T z)         override;
-        inline void setRotation (const quater<T>& qrot) override;
-        inline void setRotation (T rx, T ry, T rz)      override;
-        inline void move        (vect<T> v)             override;
-        inline void rotate      (quater<T> qrot)        override;
-        inline void scale       (vect<T> v)             override;
+        void setPosition (const vect<T>& pos)    override;
+        void setPosition (T x, T y, T z)         override;
+        void setScale    (const vect<T>& scale)  override;
+        void setScale    (T x, T y, T z)         override;
+        void setRotation (const quater<T>& qrot) override;
+        void setRotation (T rx, T ry, T rz)      override;
+        void move        (vect<T> v)             override;
+        void rotate      (quater<T> qrot)        override;
+        void scale       (vect<T> v)             override;
 };
 
 template <typename T>
@@ -70,71 +70,71 @@ void TransformMatrix<T>::matrixUpdate(){
 }
 
 template <typename T>
-vect<T> TransformMatrix<T>::getBackward(){
+vect<T> TransformMatrix<T>::getBackward() const {
     constexpr auto v4 = vect4<T>(IMovable<T>::worldBackward, 0);
     return rotation_ * v4;
 }
 
 template <typename T>
-vect<T> TransformMatrix<T>::getForward(){
+vect<T> TransformMatrix<T>::getForward() const {
     constexpr auto v4 = vect4<T>(IMovable<T>::worldForward, 0);
     return rotation_ * v4;
 }
 
 template <typename T>
-vect<T> TransformMatrix<T>::getLeft(){
+vect<T> TransformMatrix<T>::getLeft() const {
     constexpr auto v4 = vect4<T>(IMovable<T>::worldLeft, 0);
     return rotation_ * v4;
 }
 
 template <typename T>
-vect<T> TransformMatrix<T>::getRight(){
+vect<T> TransformMatrix<T>::getRight() const {
     constexpr auto v4 = vect4<T>(IMovable<T>::worldRight, 0);
     return rotation_ * v4;
 }
 
 template <typename T>
-vect<T> TransformMatrix<T>::getDown(){
+vect<T> TransformMatrix<T>::getDown() const {
     constexpr auto v4 = vect4<T>(IMovable<T>::worldDown, 0);
     return rotation_ * v4;
 }
 
 template <typename T>
-vect<T> TransformMatrix<T>::getUp(){
+vect<T> TransformMatrix<T>::getUp() const {
     constexpr auto v4 = vect4<T>(IMovable<T>::worldUp, 0);
     return rotation_ * v4;
 }
 
 template <typename T>
-vect<T> TransformMatrix<T>::getPitch(){
+vect<T> TransformMatrix<T>::getPitch() const {
     constexpr auto v4 = vect4<T>(IMovable<T>::worldPitch, 0);
     return rotation_ * v4;
 }
 
 template <typename T>
-vect<T> TransformMatrix<T>::getYaw(){
+vect<T> TransformMatrix<T>::getYaw() const {
     constexpr auto v4 = vect4<T>(IMovable<T>::worldYaw, 0);
     return rotation_ * v4;
 }
 
 template <typename T>
-vect<T> TransformMatrix<T>::getRoll(){
+vect<T> TransformMatrix<T>::getRoll() const {
     constexpr auto v4 = vect4<T>(IMovable<T>::worldRoll, 0);
     return rotation_ * v4;
 }
 
 template <typename T>
-const vect<T>& TransformMatrix<T>::getScale(){
+const vect<T>& TransformMatrix<T>::getScale() const {
     return scale_;
 }
 
 template <typename T>
-const quater<T>& TransformMatrix<T>::getRotation(){
+const quater<T>& TransformMatrix<T>::getRotation() const {
     return rotation_;
 }
 
 template <typename T>
-const vect<T>& TransformMatrix<T>::getPosition(){
+const vect<T>& TransformMatrix<T>::getPosition() const {
     return position_;
 }
 
@@ -144,7 +144,7 @@ matr<T>& TransformMatrix<T>::getMatrix(){
 }
 
 template <typename T>
-void TransformMatrix<T>::setPosition      (const vect<T>& pos){
+void TransformMatrix<T>::setPosition(const vect<T>& pos){
     position_ = pos;
     matrix_[3].x = pos.x;
     matrix_[3].y = pos.y;
@@ -152,7 +152,7 @@ void TransformMatrix<T>::setPosition      (const vect<T>& pos){
 }
 
 template <typename T>
-void TransformMatrix<T>::setPosition        (T x, T y, T z){
+void TransformMatrix<T>::setPosition(T x, T y, T z){
     position_.x = x;
     position_.y = y;
     position_.z = z;
@@ -162,24 +162,24 @@ void TransformMatrix<T>::setPosition        (T x, T y, T z){
 }
 
 template <typename T>
-void TransformMatrix<T>::setScale           (const vect<T>& scale){
+void TransformMatrix<T>::setScale(const vect<T>& scale){
     scale_ = scale;
     matrixUpdate();
 }
 
 template <typename T>
-void TransformMatrix<T>::setScale           (T x, T y, T z){
+void TransformMatrix<T>::setScale(T x, T y, T z){
 	setScale(vect<T>(x,y,z));
 }
 
 template <typename T>
-void TransformMatrix<T>::setRotation        (const quater<T>& qrot){
+void TransformMatrix<T>::setRotation(const quater<T>& qrot){
     rotation_ = qrot;
     matrixUpdate();
 }
 
 template <typename T>
-void TransformMatrix<T>::setRotation        (T rx, T ry, T rz){
+void TransformMatrix<T>::setRotation(T rx, T ry, T rz){
     setRotation(quater<T>(vect<T>(rx, ry, rz)));
 }
 

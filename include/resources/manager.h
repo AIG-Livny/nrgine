@@ -9,9 +9,9 @@ namespace resources{
 
 class Manager{
     private:
-        std::list<std::shared_ptr<Resource>> resources_;
-        std::shared_ptr<Resource> defaultModel_;
-        std::shared_ptr<Resource> defaultShader_;
+        std::list<std::shared_ptr<Resource>>    resources_;
+        std::shared_ptr<Resource>               defaultModel_;
+        std::shared_ptr<Resource>               defaultShader_;
         
     public:
                         std::shared_ptr<Model>       addModel        (const std::string& path);
@@ -22,11 +22,11 @@ class Manager{
         [[nodiscard]]   std::shared_ptr<Shader>      findShader      (const std::string& path);
         //[[nodiscard]]   std::shared_ptr<Texture>     findTexture     (const std::string& path);
             
-        [[nodiscard]] inline std::shared_ptr<Resource> getDefaultModel(){return defaultModel_;} 
-        [[nodiscard]] inline std::shared_ptr<Resource> getDefaultShader(){return defaultShader_;} 
+        [[nodiscard]] std::shared_ptr<Resource> getDefaultModel()  const {return defaultModel_;} 
+        [[nodiscard]] std::shared_ptr<Resource> getDefaultShader() const {return defaultShader_;} 
             
         // Check resources usage and unload useless
-        void process();
+        //void process();
 };
 
 } // END namespace resources

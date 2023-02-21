@@ -24,19 +24,18 @@ using quater    = glm::qua<T,       glm::defaultp>;
 
 template<typename T> requires GLMCompatible<T>
 class IMovable{
-    virtual         vect<T>     getBackward () = 0;
-    virtual         vect<T>     getForward  () = 0;
-    virtual         vect<T>     getLeft     () = 0;
-    virtual         vect<T>     getRight    () = 0;
-    virtual         vect<T>     getDown     () = 0;
-    virtual         vect<T>     getUp       () = 0;
-    
-    virtual         vect<T>     getPitch    () = 0;
-    virtual         vect<T>     getYaw      () = 0;
-    virtual         vect<T>     getRoll     () = 0;
-    virtual const   vect<T>&    getScale    () = 0;
-    virtual const   quater<T>&  getRotation () = 0;
-    virtual const   vect<T>&    getPosition () = 0;
+    virtual         vect<T>     getBackward () const = 0;
+    virtual         vect<T>     getForward  () const = 0;
+    virtual         vect<T>     getLeft     () const = 0;
+    virtual         vect<T>     getRight    () const = 0;
+    virtual         vect<T>     getDown     () const = 0;
+    virtual         vect<T>     getUp       () const = 0;
+    virtual         vect<T>     getPitch    () const = 0;
+    virtual         vect<T>     getYaw      () const = 0;
+    virtual         vect<T>     getRoll     () const = 0;
+    virtual const   vect<T>&    getScale    () const = 0;
+    virtual const   quater<T>&  getRotation () const = 0;
+    virtual const   vect<T>&    getPosition () const = 0;
     virtual         matr<T>&    getMatrix   () = 0;
     
     virtual void setPosition        (const vect<T>& pos)    = 0;
@@ -52,15 +51,15 @@ class IMovable{
 
     public:
       
-    constexpr static vect<T> worldForward  = vect<T>( 0, 0,-1 );
-    constexpr static vect<T> worldBackward = vect<T>( 0, 0, 1 );
-    constexpr static vect<T> worldLeft     = vect<T>(-1, 0, 0 );
-    constexpr static vect<T> worldRight    = vect<T>( 1, 0, 0 );
-    constexpr static vect<T> worldUp       = vect<T>( 0, 1, 0 );
-    constexpr static vect<T> worldDown     = vect<T>( 0,-1, 0 );
-    constexpr static vect<T> worldPitch    = worldRight;
-    constexpr static vect<T> worldYaw      = worldUp;
-    constexpr static vect<T> worldRoll     = worldBackward;
+    inline constexpr static vect<T> worldForward  = vect<T>( 0, 0,-1 );
+    inline constexpr static vect<T> worldBackward = vect<T>( 0, 0, 1 );
+    inline constexpr static vect<T> worldLeft     = vect<T>(-1, 0, 0 );
+    inline constexpr static vect<T> worldRight    = vect<T>( 1, 0, 0 );
+    inline constexpr static vect<T> worldUp       = vect<T>( 0, 1, 0 );
+    inline constexpr static vect<T> worldDown     = vect<T>( 0,-1, 0 );
+    inline constexpr static vect<T> worldPitch    = worldRight;
+    inline constexpr static vect<T> worldYaw      = worldUp;
+    inline constexpr static vect<T> worldRoll     = worldBackward;
     
     //virtual IMovable& operator=(const matr& m) = 0;
 };

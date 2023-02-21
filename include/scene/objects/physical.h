@@ -17,10 +17,10 @@ class TPhysical : public Object{
         TPhysical(Node* parent);
         ~TPhysical();
         
-        [[nodiscard]] inline auto*  getBody(){ return body_; }
+        [[nodiscard]] reactphysics3d::RigidBody*  getBody(){ return body_; }
         
         // Object
-        [[nodiscard]] inline Type   getType() override {return Type::Physical;} 
+        [[nodiscard]] Type getType() const override {return Type::Physical;} 
 };
     
 }// namespace scene::objects

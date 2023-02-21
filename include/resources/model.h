@@ -41,7 +41,7 @@ class Model : public Resource{
         void setPreloaded() override;
         void setUnloaded()  override;
 
-        [[nodiscard]] inline const auto& getMeshes() {return meshes_;}
+        [[nodiscard]] const std::vector<Mesh>& getMeshes() const {return meshes_;}
 
         //vector<Mesh>::iterator begin();
         //vector<Mesh>::iterator end();

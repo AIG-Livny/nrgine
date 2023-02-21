@@ -18,7 +18,7 @@ namespace scene{
         getPhysicsCommon()->destroyPhysicsWorld(physicsWorld_);
     };
     
-    void Scene::UpdatePhysics(const float& delta){
+    void Scene::updatePhysics(float delta){
         physicsWorld_->update(delta);
         for(auto o : objects_[objects::Physical]){
             auto ob = static_cast<objects::TPhysical*>(o);

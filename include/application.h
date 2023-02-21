@@ -24,10 +24,10 @@ class Application : IApplication{
         Application(const Application&)               = delete;
         Application& operator=(const Application&)    = delete;
         
-        [[nodiscard]] inline reactphysics3d::PhysicsCommon* getPhysicsCommon  () override {return physicsCommon_.get();}
-        [[nodiscard]] inline resources::Manager*            getResourceManager() override {return resourceManager_.get();}
-        [[nodiscard]] inline scene::Scene*                  getCurrentScene   () override {return currentScene_.get();}
-        [[nodiscard]] inline GLFWwindow*                    getGLFWWindow     () override {return window_;}
+        [[nodiscard]] inline reactphysics3d::PhysicsCommon* getPhysicsCommon  () const override {return physicsCommon_.get();}
+        [[nodiscard]] inline resources::Manager*            getResourceManager() const override {return resourceManager_.get();}
+        [[nodiscard]] inline scene::Scene*                  getCurrentScene   () const override {return currentScene_.get();}
+        [[nodiscard]] inline GLFWwindow*                    getGLFWWindow     () const override {return window_;}
 
         void mouseMoveEvent (double xpos, double ypos)                      override;
         void keyPressEvent  (int key, int scancode, int action, int mods)   override;
