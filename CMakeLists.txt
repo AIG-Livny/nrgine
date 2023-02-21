@@ -34,9 +34,15 @@ set_target_properties(${PROJECT_NAME} imgui reactphysics3d
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
 )
 
-
+#size checking
 find_program(PYTHON "python")
 IF(PYTHON)
 add_custom_command(TARGET ${PROJECT_NAME} PRE_BUILD COMMAND python size.py ${OUTPUT_FILE} -set)
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND python size.py ${OUTPUT_FILE} -get)
 ENDIF()
+#
+
+add_custom_target(release
+   COMMAND mkdir -p release && cp -r res release/ && cp ${OUTPUT_FILE} release/
+   DEPENDS ${OUTPUT_FILE} 
+)

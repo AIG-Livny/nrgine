@@ -29,6 +29,7 @@
 # EXCLUDESRC: list of sources exclusions 
 # PRE_LINK_COMMAND: command will be executed before link 
 # POST_LINK_COMMAND: command will be executed after link
+# RELEASE_COMMAND: command for release target
 
 #----------------------------------------------------------------
 
@@ -82,9 +83,7 @@ run: app
 test: buildtests
 	@$(TESTS_DIR)/bin/test
 release: app
-	@mkdir -p release
-	@cp -r res release/
-	@cp $(OUT_FILE) release/
+	$(RELEASE_COMMAND)
 
 clean:
 	@rm -rf ./$(OBJ_PATH)
