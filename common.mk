@@ -27,6 +27,8 @@
 # 		but before search, you can add any other individual files
 # AR_FLAGS: archiver flags
 # EXCLUDESRC: list of sources exclusions 
+# PRE_LINK_COMMAND: command will be executed before link 
+# POST_LINK_COMMAND: command will be executed after link
 
 #----------------------------------------------------------------
 
@@ -39,7 +41,6 @@ rwildcard=$(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(su
 
 # Colorful text Win/Lin 
 color_text = $(if $(filter Windows_NT, $(OS)),"[$(1)m$(2)[0m","\\033[$(1)m$(2)\\033[0m")
-
 
 # Variables checking, setting defaults
 $(call check_variable ,OUT_FILE)
@@ -73,7 +74,7 @@ TESTS_DEPS    = $(TESTS_OBJECTS:%.o=%.d)
 # Artificial targets
 .PHONY: all app buildtests clean cleanall clean.withsubprojects cleanall.withsubprojects test run release
 
-all: app $(if $(strip $(TESTS_SOURCES)),buildtests,)
+all: $(if $(strip $(TESTS_SOURCES)),buildtests,) app
 app: $(SUBPROJECTS) $(OUT_FILE)
 buildtests: app $(TESTS_DIR)/bin/test
 run: app
@@ -117,23 +118,26 @@ $(OBJ_PATH)/%.d: %.c*
 # Executable link
 $(basename $(OUT_FILE)): $(DEPS) $(OBJECTS)
 	@echo $(call color_text,32,Linking executable): $@
+	$(PRE_LINK_COMMAND)
 	@mkdir -p $(dir $@)
 	@$(GCC) $(LIB_DIRS) $(LINK_FLAGS) $(OBJECTS) -o $@ $(LIBS)
-	@size $@$(if $(filter Windows_NT, $(OS)),.exe,)
+	$(POST_LINK_COMMAND)
 
 # Static lib link
 lib%.a: $(DEPS) $(OBJECTS)
 	@echo $(call color_text,33,Linking static): $@
+	$(PRE_LINK_COMMAND)
 	@mkdir -p $(dir $@)
 	@$(AR) $(AR_FLAGS) $(LIB_DIRS) $@ $(OBJECTS) $(LIBS)
-	@size $@
+	$(POST_LINK_COMMAND)
 
 # Shared lib link
 %.so %.dll:
 	@echo $(call color_text,33,Linking shared): $@
+	$(PRE_LINK_COMMAND)
 	@mkdir -p $(dir $@)
 	@$(GCC) -shared $(LIB_DIRS) $(LINK_FLAGS) $(OBJECTS) -o $@ $(LIBS)
-	@size $@$(if $(filter Windows_NT, $(OS)),.dll,.so)
+	$(POST_LINK_COMMAND)
 
 # Tests link: exe for each .cpp
 #$(TESTS_DIR)/bin/%: %.c*
