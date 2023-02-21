@@ -40,4 +40,11 @@ LIBS            += imgui
 LIBS            += gtest
 LIBS            += gmock
 
+ifneq (, $(shell which python))
+PRE_LINK_COMMAND 	:= @python size.py $(OUT_FILE) -set"
+POST_LINK_COMMAND 	:= @python size.py $(OUT_FILE) -get"
+endif
+
+RELEASE_COMMAND := @mkdir -p release && cp -r res release/ && cp $(OUT_FILE) release/
+
 include common.mk
