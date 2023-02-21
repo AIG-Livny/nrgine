@@ -38,8 +38,14 @@ NRgine is my 3d engine for training C++ skills. Also it provides access for any 
     ```
 
 - ### Build & Run
-    Open terminal and run next command:
+    Open terminal and run next commands:
     ```
+    cmake .
     make release
     ```
     And run executable from directory ./release
+    
+    If you would like use just "make" tool: rename "Makefile.gnumake" to "Makefile" and run
+    ```
+    make release
+    ``` 
